@@ -396,7 +396,7 @@
             <button class="button add-plan" type="button" data-add-plan="yearly">Add yearly plan <span aria-hidden="true">&#8594;</span></button>
           </article>
         </div>
-        <p class="plans-footnote">45 minutes is recommended because it allows time for a warm-up, guided practice, and wrap-up. Rates are per student; no payment is collected on this site.</p>
+        <p class="plans-footnote">At 45 minutes, Science is the base rate, Math adds $5, and English adds $10 per weekly class. Grade 1 Science starts at $45. 45 minutes is recommended for warm-up, guided practice, and wrap-up. No payment is collected here.</p>
       </div>
     </section>
 
@@ -499,6 +499,7 @@
     const tutorEmail = "divit.gangrade@gmail.com";
     const tutorPhone = "+18048473236";
     const gradeBaseRates = { 1: 45, 2: 49, 3: 53, 4: 57, 5: 61, 6: 65, 7: 69, 8: 73 };
+    const subjectPremiums = { Science: 0, Math: 5, English: 10 };
     const durationMultipliers = { 30: 0.75, 45: 1, 60: 1.35 };
     const termDetails = {
       weekly: { name: "Weekly", sessions: 1, discount: 0 },
@@ -535,13 +536,13 @@
       toastTimer = window.setTimeout(() => toast.classList.remove("show"), 2600);
     }
 
-    function getWeeklyRate(grade, duration) {
-      return Math.round(gradeBaseRates[grade] * durationMultipliers[duration]);
+    function getWeeklyRate(grade, duration, subject = picker.subject) {
+      return Math.round((gradeBaseRates[grade] + subjectPremiums[subject]) * durationMultipliers[duration]);
     }
 
     function getPlan(term, duration, grade = picker.grade, subject = picker.subject) {
       const details = termDetails[term];
-      const weeklyRate = getWeeklyRate(grade, duration);
+      const weeklyRate = getWeeklyRate(grade, duration, subject);
       const regularAnnual = weeklyRate * 48;
       const amount = term === "weekly" ? weeklyRate
         : term === "monthly" ? weeklyRate * 4
@@ -594,8 +595,8 @@
     }
 
     function renderPlanCards() {
-      document.getElementById("grade-caption").textContent = `Grade ${picker.grade} · $${gradeBaseRates[picker.grade]} / 45 min each week`;
-      document.getElementById("subject-caption").textContent = picker.subject;
+      document.getElementById("grade-caption").textContent = `Grade ${picker.grade} · $${gradeBaseRates[picker.grade]} science base / 45 min weekly`;
+      document.getElementById("subject-caption").textContent = `${picker.subject} · ${picker.subject === "Science" ? "base rate" : `+$${subjectPremiums[picker.subject]} / weekly class`}`;
       document.querySelectorAll("[data-plan]").forEach(card => {
         const term = card.dataset.plan;
         const duration = selectedDurations[term];
