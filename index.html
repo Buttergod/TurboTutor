@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f1e8">
+  <title>TurboTutor | Learning in the fast lane</title>
+  <meta name="description" content="Personal tutoring plans for grades 1-8. Find the right pace and help your student build confidence, one lap at a time.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f4f1e8;
+      --ink: #202625;
+      --muted: #656b68;
+      --red: #e44332;
+      --yellow: #f4c744;
+      --blue: #a9d8da;
+      --line: #d7d4ca;
+      --display: "Barlow Condensed", Impact, sans-serif;
+      --body: "DM Sans", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 82px; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); }
+    button, a { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
+
+    .topline { height: 7px; background: repeating-linear-gradient(135deg, var(--ink) 0 12px, var(--yellow) 12px 24px); }
+    .site-header { position: sticky; z-index: 20; top: 0; background: rgba(244, 241, 232, .96); border-bottom: 1px solid var(--line); backdrop-filter: blur(12px); }
+    .nav-row { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 27px; font-weight: 900; line-height: 1; text-transform: uppercase; letter-spacing: .3px; white-space: nowrap; }
+    .brand-mark { width: 30px; height: 30px; display: grid; place-items: center; background: var(--red); color: white; clip-path: polygon(20% 0, 100% 0, 80% 100%, 0 100%); font-size: 16px; }
+    .main-nav { display: flex; align-items: center; gap: 28px; }
+    .nav-link { position: relative; padding: 28px 0 25px; color: #505653; font-size: 13px; font-weight: 700; }
+    .nav-link::after { position: absolute; right: 0; bottom: 17px; left: 0; height: 2px; background: var(--red); content: ""; transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-link.active::after, .nav-link:hover::after { transform: scaleX(1); }
+    .cart-button { display: inline-flex; align-items: center; gap: 9px; border: 1px solid var(--ink); background: transparent; padding: 9px 13px; font-size: 12px; font-weight: 700; cursor: pointer; transition: background .2s, color .2s; }
+    .cart-button:hover { background: var(--ink); color: white; }
+    .cart-count { min-width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; background: var(--red); color: white; font-size: 11px; }
+    .menu-button { display: none; border: 0; background: none; padding: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+
+    .hero { min-height: 560px; display: flex; align-items: center; position: relative; isolation: isolate; overflow: hidden; background: #283130; color: white; }
+    .pixel-scene { position: absolute; z-index: -1; inset: 0; overflow: hidden; }
+    .pixel-scene canvas { width: 100%; height: 100%; image-rendering: pixelated; object-fit: cover; }
+    .hero::before { position: absolute; z-index: 0; inset: 0; background: linear-gradient(90deg, rgba(17, 24, 23, .94) 0%, rgba(17, 24, 23, .72) 42%, rgba(17, 24, 23, .12) 100%); content: ""; pointer-events: none; }
+    .hero::after { position: absolute; z-index: 3; right: 0; bottom: 0; left: 0; height: 12px; background: repeating-linear-gradient(135deg, var(--paper) 0 12px, transparent 12px 24px); content: ""; }
+    .hero-inner { position: relative; z-index: 2; padding-block: 86px 100px; animation: enter .65s ease both; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px; color: var(--yellow); font-size: 11px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; }
+    .eyebrow::before { width: 28px; height: 2px; background: currentColor; content: ""; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 660px; margin-bottom: 19px; font-family: var(--display); font-size: clamp(68px, 9vw, 112px); font-weight: 900; line-height: .83; text-transform: uppercase; }
+    h1 span { color: var(--yellow); }
+    .hero-copy { max-width: 450px; margin-bottom: 27px; color: #e5e7e2; font-size: 15px; line-height: 1.7; }
+    .button { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 1px solid transparent; padding: 0 19px; background: var(--red); color: white; font-size: 12px; font-weight: 700; cursor: pointer; transition: background .2s, transform .2s; }
+    .button:hover { background: #c83326; transform: translateY(-2px); }
+    .button.light { background: var(--paper); color: var(--ink); }
+    .button.light:hover { background: var(--yellow); }
+    .hero-note { display: inline-flex; align-items: center; gap: 10px; margin-left: 17px; color: #e5e7e2; font-size: 13px; }
+    .hero-note strong { color: white; }
+
+    .ticker { overflow: hidden; border-bottom: 1px solid var(--line); background: var(--yellow); }
+    .ticker-track { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 20px; color: #292a24; font-family: var(--display); font-size: 17px; font-weight: 800; letter-spacing: .6px; text-transform: uppercase; }
+    .ticker-track span { display: inline-flex; align-items: center; gap: 20px; white-space: nowrap; }
+    .ticker-track b { color: var(--red); font-size: 17px; }
+
+    section { padding-block: 84px; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 30px; }
+    .section-heading h2 { margin: 0; font-family: var(--display); font-size: 54px; font-weight: 900; line-height: .9; text-transform: uppercase; }
+    .section-heading p { max-width: 390px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .section-kicker { margin-bottom: 12px; color: var(--red); font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; }
+
+    .plan-section { background: #e9e6dc; }
+    .picker-label { display: flex; align-items: baseline; gap: 11px; margin: 25px 0 10px; font-family: var(--display); font-size: 22px; font-weight: 800; text-transform: uppercase; }
+    .picker-label span { color: var(--muted); font-family: var(--body); font-size: 11px; font-weight: 500; text-transform: none; }
+    .tab-row { display: flex; flex-wrap: wrap; gap: 5px; }
+    .choice-tab { min-height: 39px; border: 1px solid #cfcbc0; padding: 0 15px; background: transparent; color: #545a56; font-size: 11px; font-weight: 700; cursor: pointer; transition: background .18s, color .18s, border-color .18s, transform .18s; }
+    .choice-tab:hover { border-color: var(--ink); transform: translateY(-2px); }
+    .choice-tab[aria-selected="true"] { border-color: var(--ink); background: var(--ink); color: white; }
+    .choice-tab:focus-visible, .button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+    .plan-result { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; margin-top: 25px; border-left: 4px solid var(--red); background: var(--paper); padding: 24px; animation: enter .25s ease both; }
+    .plan-grade { margin-bottom: 8px; color: var(--red); font-size: 10px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; }
+    .plan-result h3 { margin-bottom: 8px; font-family: var(--display); font-size: 34px; font-weight: 800; line-height: 1; text-transform: uppercase; }
+    .plan-description { max-width: 620px; margin-bottom: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    .plan-result-action { display: grid; justify-items: end; gap: 9px; }
+    .price-note { margin: 0; color: var(--muted); font-size: 11px; }
+    .plans-footnote { margin: 17px 0 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .selection-list { display: grid; gap: 10px; }
+    .selection-item { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .selection-item strong { font-family: var(--display); font-size: 20px; text-transform: uppercase; }
+    .selection-item span { grid-column: 1; color: var(--muted); font-size: 11px; }
+    .remove-button { grid-column: 2; grid-row: 1 / span 2; align-self: center; border: 0; background: none; color: var(--red); font-size: 11px; cursor: pointer; }
+
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 36px; border-top: 1px solid var(--line); }
+    .step { padding: 24px 24px 0 0; }
+    .step + .step { padding-left: 24px; border-left: 1px solid var(--line); }
+    .step-number { display: inline-grid; width: 31px; height: 31px; place-items: center; margin-bottom: 18px; background: var(--blue); font-family: var(--display); font-size: 16px; font-weight: 800; }
+    .step h3 { margin-bottom: 8px; font-family: var(--display); font-size: 24px; text-transform: uppercase; }
+    .step p { max-width: 290px; margin-bottom: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+    .promise { padding-block: 67px; background: var(--ink); color: white; }
+    .promise-row { display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: 50px; }
+    .promise h2 { max-width: 480px; margin-bottom: 0; font-family: var(--display); font-size: 52px; font-weight: 900; line-height: .9; text-transform: uppercase; }
+    .promise h2 span { color: var(--yellow); }
+    .promise-copy { max-width: 440px; margin: 0; color: #cbd0cc; font-size: 13px; line-height: 1.8; }
+
+    .contact-section { background: var(--blue); }
+    .contact-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .contact-link { display: inline-flex; align-items: center; gap: 9px; min-height: 48px; border-bottom: 1px solid rgba(32, 38, 37, .4); font-size: 14px; font-weight: 700; transition: color .18s; }
+    .contact-link:hover { color: var(--red); }
+
+    .faq-section { background: #e9e6dc; }
+    .faq-section .section-kicker { font-size: 13px; }
+    .faq-list { max-width: 800px; border-top: 1px solid #c9c6bc; }
+    details { border-bottom: 1px solid #c9c6bc; }
+    summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 0; font-family: var(--display); font-size: 22px; font-weight: 700; text-transform: uppercase; cursor: pointer; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { color: var(--red); content: "+"; font-family: var(--body); font-size: 20px; }
+    details[open] summary::after { content: "-"; }
+    details p { max-width: 670px; margin: -4px 0 19px; color: #4e5551; font-size: 15px; line-height: 1.8; }
+
+    footer { padding-block: 27px; background: var(--ink); color: white; }
+    .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .footer-brand { font-family: var(--display); font-size: 21px; font-weight: 900; text-transform: uppercase; }
+    .footer-copy { margin: 0; color: #b7bfba; font-size: 10px; }
+    .footer-link { color: var(--yellow); font-size: 11px; font-weight: 700; }
+
+    .scrim { position: fixed; z-index: 29; inset: 0; background: rgba(17, 24, 23, .48); opacity: 0; pointer-events: none; transition: opacity .2s; }
+    .scrim.open { opacity: 1; pointer-events: auto; }
+    .cart-panel { position: fixed; z-index: 30; top: 0; right: 0; bottom: 0; width: min(410px, 100%); display: flex; flex-direction: column; background: var(--paper); padding: 24px; transform: translateX(100%); transition: transform .25s ease; }
+    .cart-panel.open { transform: translateX(0); }
+    .cart-heading { display: flex; align-items: center; justify-content: space-between; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+    .cart-heading h2 { margin: 0; font-family: var(--display); font-size: 31px; text-transform: uppercase; }
+    .close-button { width: 36px; height: 36px; border: 1px solid var(--line); background: transparent; font-size: 19px; cursor: pointer; }
+    .cart-items { flex: 1; overflow: auto; padding-block: 15px; }
+    .cart-empty { padding-top: 28px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .cart-item { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding-block: 14px; border-bottom: 1px solid var(--line); }
+    .cart-item strong { font-family: var(--display); font-size: 20px; text-transform: uppercase; }
+    .cart-item span { color: var(--muted); font-size: 12px; }
+    .remove-button { grid-column: 1 / -1; justify-self: start; border: 0; background: none; padding: 4px 0; color: var(--red); font-size: 11px; cursor: pointer; }
+    .cart-bottom { padding-top: 17px; border-top: 1px solid var(--line); }
+    .cart-total { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 13px; font-weight: 700; }
+    .cart-bottom .button { width: 100%; }
+    .cart-disclaimer { margin: 10px 0 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
+    dialog { width: min(540px, calc(100% - 32px)); max-height: min(90vh, 760px); overflow: auto; border: 1px solid var(--line); background: var(--paper); padding: 0; color: var(--ink); }
+    dialog::backdrop { background: rgba(17, 24, 23, .68); backdrop-filter: blur(3px); }
+    .request-form { display: grid; gap: 15px; padding: 24px; }
+    .form-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+    .form-heading h2 { margin: 0 0 5px; font-family: var(--display); font-size: 32px; text-transform: uppercase; }
+    .form-heading p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .form-field { display: grid; gap: 6px; }
+    .form-field.full { grid-column: 1 / -1; }
+    .form-field label, .payment-title { font-size: 11px; font-weight: 700; }
+    .form-field input, .form-field select { width: 100%; min-height: 42px; border: 1px solid #c9c6bc; border-radius: 0; background: white; padding: 9px 10px; font: inherit; font-size: 12px; }
+    .payment-options { display: flex; flex-wrap: wrap; gap: 9px; }
+    .payment-option { display: inline-flex; align-items: center; gap: 7px; min-height: 37px; border: 1px solid #c9c6bc; padding: 0 11px; font-size: 12px; cursor: pointer; }
+    .payment-option:has(input:checked) { border-color: var(--ink); background: #e9e6dc; }
+    .payment-option input { accent-color: var(--red); }
+    .form-note { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.65; }
+    .draft-actions { display: none; gap: 9px; }
+    .draft-actions.ready { display: grid; }
+    .draft-actions .button { width: 100%; }
+    .draft-status { min-height: 18px; margin: 0; color: #20685f; font-size: 11px; }
+    .toast { position: fixed; z-index: 40; right: 24px; bottom: 24px; max-width: calc(100% - 48px); padding: 13px 17px; background: var(--ink); color: white; font-size: 12px; opacity: 0; pointer-events: none; transform: translateY(10px); transition: .2s; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @keyframes enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 32px, 560px); }
+      .nav-row { min-height: 65px; gap: 10px; }
+      .brand { font-size: 23px; }
+      .brand-mark { width: 27px; height: 27px; }
+      .menu-button { display: inline-flex; }
+      .main-nav { position: absolute; top: 64px; right: 0; left: 0; display: none; flex-direction: column; align-items: stretch; gap: 0; border-bottom: 1px solid var(--line); background: var(--paper); padding: 6px 16px 12px; }
+      .main-nav.open { display: flex; }
+      .nav-link { padding: 13px 4px; }
+      .nav-link::after { right: auto; bottom: 6px; width: 32px; }
+      .cart-button { padding: 7px 9px; font-size: 11px; }
+      .hero { min-height: 510px; }
+      .hero::before { background: linear-gradient(90deg, rgba(17, 24, 23, .92), rgba(17, 24, 23, .58) 70%, rgba(17, 24, 23, .25)); }
+      .hero-inner { padding-block: 72px 85px; }
+      h1 { font-size: clamp(65px, 16vw, 92px); }
+      .hero-note { display: flex; margin: 15px 0 0; }
+      .ticker-track { justify-content: flex-start; overflow: hidden; font-size: 15px; }
+      .ticker-track span:nth-child(n+3) { display: none; }
+      section { padding-block: 62px; }
+      .section-heading { align-items: flex-start; flex-direction: column; gap: 14px; }
+      .section-heading h2 { font-size: 46px; }
+      .choice-tab { flex: 1 0 auto; padding-inline: 12px; }
+      .plan-result { grid-template-columns: 1fr; gap: 17px; padding: 20px; }
+      .plan-result-action { justify-items: stretch; }
+      .plan-result-action .button { width: 100%; }
+      .steps { grid-template-columns: 1fr; }
+      .step, .step + .step { padding: 19px 0; border-left: 0; border-bottom: 1px solid var(--line); }
+      .step-number { margin-bottom: 10px; }
+      .promise-row { grid-template-columns: 1fr; gap: 18px; }
+      .promise h2 { font-size: 45px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-field.full { grid-column: auto; }
+      .footer-row { align-items: flex-start; flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="wrap nav-row">
+      <a class="brand" href="#home" aria-label="TurboTutor home"><span class="brand-mark" aria-hidden="true">T</span> TurboTutor</a>
+      <button class="menu-button" id="menu-toggle" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#home">Home</a>
+        <a class="nav-link" href="#plans">Plans</a>
+        <a class="nav-link" href="#how-it-works">How it works</a>
+        <a class="nav-link" href="#contact">Contact</a>
+        <a class="nav-link" href="#faq">FAQ</a>
+      </nav>
+      <button class="cart-button" id="open-cart" aria-label="Open cart, 0 items">Your cart <span class="cart-count" id="cart-count">0</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="pixel-scene"><canvas id="race-canvas" aria-hidden="true"></canvas></div>
+      <div class="wrap hero-inner">
+        <p class="eyebrow">A little help goes a long way</p>
+        <h1 id="hero-title">Ready.<br>Set.<br><span>Learn.</span></h1>
+        <p class="hero-copy">One-on-one tutoring for grades 1-8, built around your kid's pace. More confidence, fewer homework pit stops.</p>
+        <a class="button" href="#plans">Find your plan <span aria-hidden="true">&#8594;</span></a>
+        <p class="hero-note"><strong>Grades 1-8</strong> <span aria-hidden="true">/</span> Math, reading &amp; more</p>
+      </div>
+    </section>
+
+    <div class="ticker" aria-label="Our tutoring approach">
+      <div class="wrap ticker-track"><span>Small steps, big wins <b aria-hidden="true">&#9733;</b></span><span>Made for grades 1-8 <b aria-hidden="true">&#9733;</b></span><span>Learning at their pace <b aria-hidden="true">&#9733;</b></span></div>
+    </div>
+
+    <section class="plan-section" id="plans" aria-labelledby="plans-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-kicker">Build a course request</p><h2 id="plans-title">Choose your track</h2></div>
+          <p>Pick a grade, subject, and class format. Add as many courses as you need, then send your request directly to the tutor.</p>
+        </div>
+        <div class="picker-group">
+          <p class="picker-label">1. Choose a grade <span id="grade-caption">Grade 1 selected</span></p>
+          <div class="tab-row" id="grade-tabs" role="tablist" aria-label="Choose a grade">
+            <button class="choice-tab" role="tab" aria-selected="true" data-grade="1">Grade 1</button>
+            <button class="choice-tab" role="tab" aria-selected="false" data-grade="2">Grade 2</button>
+            <button class="choice-tab" role="tab" aria-selected="false" data-grade="3">Grade 3</button>
+            <button class="choice-tab" role="tab" aria-selected="false" data-grade="4">Grade 4</button>
+            <button class="choice-tab" role="tab" aria-selected="false" data-grade="5">Grade 5</button>
+            <button class="choice-tab" role="tab" aria-selected="false" data-grade="6">Grade 6</button>
+            <button class="choice-tab" role="tab" aria-selected="false" data-grade="7">Grade 7</button>
+            <button class="choice-tab" role="tab" aria-selected="false" data-grade="8">Grade 8</button>
+          </div>
+        </div>
+        <div class="picker-group">
+          <p class="picker-label">2. Choose a subject <span id="subject-caption">Science selected</span></p>
+          <div class="tab-row" id="subject-tabs" role="tablist" aria-label="Choose a subject">
+            <button class="choice-tab" role="tab" aria-selected="true" data-subject="Science">Science</button>
+            <button class="choice-tab" role="tab" aria-selected="false" data-subject="English">English</button>
+            <button class="choice-tab" role="tab" aria-selected="false" data-subject="Math">Math</button>
+          </article>
+        </div>
+        <div class="picker-group">
+          <p class="picker-label">3. Choose a class type <span id="format-caption">Single class selected</span></p>
+          <div class="tab-row" id="format-tabs" role="tablist" aria-label="Choose a class type">
+            <button class="choice-tab" role="tab" aria-selected="true" data-format="Single class">Single class</button>
+            <button class="choice-tab" role="tab" aria-selected="false" data-format="Monthly class">Monthly class</button>
+            <button class="choice-tab" role="tab" aria-selected="false" data-format="Yearly class">Yearly class</button>
+          </div>
+        </div>
+        <article class="plan-result" aria-live="polite">
+          <div><p class="plan-grade" id="selected-course-label">Grade 1 / Science</p><h3 id="selected-course-title">Single class</h3><p class="plan-description" id="selected-course-description">One tutoring class. Schedule and session details are confirmed directly with the tutor.</p></div>
+          <div class="plan-result-action"><p class="price-note">Price confirmed on request</p><button class="button" id="add-course">Add to request <span aria-hidden="true">&#8594;</span></button></div>
+        </article>
+        <p class="plans-footnote">Select options to build your request. Pricing, schedule, and class details will be confirmed with you before payment.</p>
+      </div>
+    </section>
+
+    <section id="how-it-works" aria-labelledby="steps-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-kicker">No complicated course map</p><h2 id="steps-title">Three steps<br>to the green flag</h2></div>
+          <p>Good tutoring starts with a good fit. We'll make the first steps feel easy for you and your student.</p>
+        </div>
+        <div class="steps">
+          <article class="step"><span class="step-number">01</span><h3>Choose a plan</h3><p>Pick a weekly rhythm that works for your family and your student's grade.</p></article>
+          <article class="step"><span class="step-number">02</span><h3>Meet your tutor</h3><p>Tell us what feels easy, what's tricky, and what your student wants to work on.</p></article>
+          <article class="step"><span class="step-number">03</span><h3>Build momentum</h3><p>Short, focused sessions turn practice into progress, one week at a time.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="promise" aria-labelledby="promise-title">
+      <div class="wrap promise-row">
+        <h2 id="promise-title">It's not about<br>being <span>the fastest.</span></h2>
+        <p class="promise-copy">It's about feeling good in the driver's seat. TurboTutor helps kids build skills without the pressure, with patient one-on-one support that meets them where they are.</p>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="wrap">
+        <div class="section-heading"><div><p class="section-kicker">Talk to the tutor</p><h2 id="contact-title">Questions?<br>Get in touch.</h2></div><p>Reach out directly about subjects, schedules, pricing, or how to pay by cash or Zelle.</p></div>
+        <div class="contact-links"><a class="contact-link" href="tel:+18048473236"><span aria-hidden="true">&#9742;</span> 804-847-3236</a><a class="contact-link" href="mailto:divit.gangrade@gmail.com"><span aria-hidden="true">&#9993;</span> divit.gangrade@gmail.com</a></div>
+      </div>
+    </section>
+
+    <section class="faq-section" id="faq" aria-labelledby="faq-title">
+      <div class="wrap">
+        <div class="section-heading"><div><p class="section-kicker">Quick answers</p><h2 id="faq-title">Before the start</h2></div></div>
+        <div class="faq-list">
+          <details><summary>What subjects can my student choose?</summary><p>Choose Science, English, or Math for any grade from 1 through 8. You can add more than one course to a single request.</p></details>
+          <details><summary>What does each class type include?</summary><p>Choose a single class, monthly class, or yearly class. The tutor will confirm the session schedule, exact class details, and price with you before you agree to enroll.</p></details>
+          <details><summary>How do I request enrollment?</summary><p>Add courses, enter your contact details and payment preference, then choose an email or text draft. Your email or messaging app opens with the request filled in. Review it and press Send to contact the tutor.</p></details>
+          <details><summary>Can I pay by cash or Zelle?</summary><p>Select cash or Zelle in the request form. No payment is collected on this website; confirm payment instructions directly with the tutor.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row"><a class="footer-brand" href="#home">TurboTutor</a><p class="footer-copy">A little help goes a long way.</p><a class="footer-link" href="#contact">Contact the tutor &#8594;</a></div>
+  </footer>
+
+  <div class="scrim" id="scrim" aria-hidden="true"></div>
+  <aside class="cart-panel" id="cart-panel" aria-labelledby="cart-title" aria-hidden="true">
+    <div class="cart-heading"><h2 id="cart-title">Your cart</h2><button class="close-button" id="close-cart" aria-label="Close cart">&times;</button></div>
+    <div class="cart-items selection-list" id="cart-items" aria-live="polite"></div>
+    <div class="cart-bottom"><div class="cart-total"><span>Courses in request</span><span id="request-count">0</span></div><button class="button" id="checkout-button">Add your details <span aria-hidden="true">&#8594;</span></button><p class="cart-disclaimer">Prices and schedule are confirmed directly with the tutor.</p></div>
+  </aside>
+  <dialog id="request-dialog" aria-labelledby="request-title">
+    <form class="request-form" id="request-form">
+      <div class="form-heading"><div><h2 id="request-title">Request enrollment</h2><p id="request-course-summary">Your selected courses will be included in the request.</p></div><button class="close-button" type="button" id="close-request" aria-label="Close enrollment form">&times;</button></div>
+      <div class="form-grid">
+        <div class="form-field"><label for="guardian-name">Your name</label><input id="guardian-name" name="guardianName" autocomplete="name" required></div>
+        <div class="form-field"><label for="student-name">Student's name</label><input id="student-name" name="studentName" required></div>
+        <div class="form-field"><label for="contact-email">Your email</label><input id="contact-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="form-field"><label for="contact-phone">Your phone</label><input id="contact-phone" name="phone" type="tel" autocomplete="tel" required></div>
+        <div class="form-field full"><span class="payment-title">Preferred payment</span><div class="payment-options"><label class="payment-option"><input type="radio" name="payment" value="Cash" required> Cash</label><label class="payment-option"><input type="radio" name="payment" value="Zelle" required> Zelle</label></div></div>
+      </div>
+      <p class="form-note">No payment is collected here. Your request will open as a draft; review it and press Send in your email or messaging app.</p>
+      <button class="button" type="submit">Prepare request <span aria-hidden="true">&#8594;</span></button>
+      <p class="draft-status" id="draft-status" aria-live="polite"></p>
+      <div class="draft-actions" id="draft-actions"><a class="button" id="email-draft" href="mailto:divit.gangrade@gmail.com">Open email draft</a><a class="button light" id="sms-draft" href="sms:+18048473236">Open text draft</a></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const tutorEmail = "divit.gangrade@gmail.com";
+    const tutorPhone = "+18048473236";
+    const selectedCourses = [];
+    const selectionList = document.getElementById("cart-items");
+    const requestDialog = document.getElementById("request-dialog");
+    const requestForm = document.getElementById("request-form");
+    const draftActions = document.getElementById("draft-actions");
+    const toast = document.getElementById("toast");
+    const picker = { grade: 1, subject: "Science", format: "Single class" };
+    let toastTimer;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => toast.classList.remove("show"), 2400);
+    }
+
+    function setTabSelection(container, selector, selectedValue, dataKey) {
+      container.querySelectorAll(selector).forEach(tab => {
+        tab.setAttribute("aria-selected", String(tab.dataset[dataKey] === String(selectedValue)));
+      });
+    }
+
+    function updateCurrentCourse() {
+      document.getElementById("grade-caption").textContent = `Grade ${picker.grade} selected`;
+      document.getElementById("subject-caption").textContent = `${picker.subject} selected`;
+      document.getElementById("format-caption").textContent = `${picker.format} selected`;
+      document.getElementById("selected-course-label").textContent = `Grade ${picker.grade} / ${picker.subject}`;
+      document.getElementById("selected-course-title").textContent = picker.format;
+      const duration = picker.format === "Single class" ? "One tutoring class" : `A ${picker.format.toLowerCase()} enrollment`;
+      document.getElementById("selected-course-description").textContent = `${duration} for Grade ${picker.grade} ${picker.subject}. Schedule and session details are confirmed directly with the tutor.`;
+    }
+
+    function getCurrentCourse() {
+      return {
+        grade: picker.grade,
+        subject: picker.subject,
+        format: picker.format,
+        key: `${picker.grade}-${picker.subject}-${picker.format}`
+      };
+    }
+
+    function renderSelections() {
+      const count = selectedCourses.length;
+      document.querySelector("#open-cart .cart-count").textContent = String(count);
+      document.getElementById("request-count").textContent = String(count);
+      document.getElementById("open-cart").setAttribute("aria-label", `Open request, ${count} ${count === 1 ? "course" : "courses"}`);
+      if (!count) {
+        selectionList.innerHTML = '<p class="cart-empty">Choose a grade, subject, and class type to add your first course.</p>';
+        return;
+      }
+      selectionList.innerHTML = selectedCourses.map((course, index) => `<div class="selection-item"><strong>Grade ${course.grade} ${course.subject}</strong><span>${course.format} · price confirmed on request</span><button class="remove-button" data-remove="${index}">Remove</button></div>`).join("");
+      selectionList.querySelectorAll("[data-remove]").forEach(button => button.addEventListener("click", () => {
+        selectedCourses.splice(Number(button.dataset.remove), 1);
+        renderSelections();
+      }));
+    }
+
+    document.querySelectorAll("#grade-tabs [data-grade]").forEach(tab => tab.addEventListener("click", () => {
+      picker.grade = Number(tab.dataset.grade);
+      setTabSelection(document.getElementById("grade-tabs"), "[data-grade]", picker.grade, "grade");
+      updateCurrentCourse();
+    }));
+    document.querySelectorAll("#subject-tabs [data-subject]").forEach(tab => tab.addEventListener("click", () => {
+      picker.subject = tab.dataset.subject;
+      setTabSelection(document.getElementById("subject-tabs"), "[data-subject]", picker.subject, "subject");
+      updateCurrentCourse();
+    }));
+    document.querySelectorAll("#format-tabs [data-format]").forEach(tab => tab.addEventListener("click", () => {
+      picker.format = tab.dataset.format;
+      setTabSelection(document.getElementById("format-tabs"), "[data-format]", picker.format, "format");
+      updateCurrentCourse();
+    }));
+
+    document.getElementById("add-course").addEventListener("click", () => {
+      const course = getCurrentCourse();
+      if (selectedCourses.some(item => item.key === course.key)) {
+        showToast("That course is already in your request");
+        return;
+      }
+      selectedCourses.push(course);
+      renderSelections();
+      showToast(`Grade ${course.grade} ${course.subject} added`);
+    });
+
+    const cartPanel = document.getElementById("cart-panel");
+    const scrim = document.getElementById("scrim");
+    function setCartOpen(open) {
+      cartPanel.classList.toggle("open", open);
+      scrim.classList.toggle("open", open);
+      cartPanel.setAttribute("aria-hidden", String(!open));
+      document.body.style.overflow = open ? "hidden" : "";
+      if (open) document.getElementById("close-cart").focus();
+    }
+
+    document.getElementById("open-cart").addEventListener("click", () => setCartOpen(true));
+    document.getElementById("close-cart").addEventListener("click", () => setCartOpen(false));
+    scrim.addEventListener("click", () => setCartOpen(false));
+    document.getElementById("checkout-button").addEventListener("click", () => {
+      if (!selectedCourses.length) {
+        showToast("Add a course before requesting enrollment");
+        return;
+      }
+      document.getElementById("request-course-summary").textContent = `${selectedCourses.length} ${selectedCourses.length === 1 ? "course" : "courses"} will be included in your request.`;
+      setCartOpen(false);
+      requestDialog.showModal();
+      document.getElementById("guardian-name").focus();
+    });
+    document.getElementById("close-request").addEventListener("click", () => requestDialog.close());
+    requestForm.addEventListener("input", () => {
+      draftActions.classList.remove("ready");
+      document.getElementById("draft-status").textContent = "";
+    });
+
+    requestForm.addEventListener("submit", event => {
+      event.preventDefault();
+      const formData = new FormData(requestForm);
+      const courses = selectedCourses.map(course => `- Grade ${course.grade} ${course.subject}: ${course.format} (price to be confirmed)`).join("\n");
+      const message = [
+        "TurboTutor enrollment request",
+        "",
+        `Parent/guardian: ${formData.get("guardianName")}`,
+        `Student: ${formData.get("studentName")}`,
+        `Email: ${formData.get("email")}`,
+        `Phone: ${formData.get("phone")}`,
+        `Preferred payment: ${formData.get("payment")}`,
+        "",
+        "Courses requested:",
+        courses
+      ].join("\n");
+      const subject = encodeURIComponent("TurboTutor enrollment request");
+      document.getElementById("email-draft").href = `mailto:${tutorEmail}?subject=${subject}&body=${encodeURIComponent(message)}`;
+      document.getElementById("sms-draft").href = `sms:${tutorPhone}?body=${encodeURIComponent(message)}`;
+      draftActions.classList.add("ready");
+      document.getElementById("draft-status").textContent = "Your request is ready. Choose email or text, then press Send in that app.";
+    });
+
+    document.addEventListener("keydown", event => { if (event.key === "Escape" && !requestDialog.open) setCartOpen(false); });
+    const menuToggle = document.getElementById("menu-toggle");
+    const mainNav = document.getElementById("main-nav");
+    menuToggle.addEventListener("click", () => {
+      const isOpen = mainNav.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+    mainNav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+      mainNav.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+    }));
+
+    const navLinks = document.querySelectorAll(".nav-link");
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) navLinks.forEach(link => link.classList.toggle("active", link.getAttribute("href") === `#${entry.target.id}`));
+      });
+    }, { rootMargin: "-30% 0px -60% 0px" });
+    document.querySelectorAll("main section[id]").forEach(section => sectionObserver.observe(section));
+
+    updateCurrentCourse();
+    renderSelections();
+  </script>
+  <script type="module">
+    import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
+
+    const canvas = document.getElementById("race-canvas");
+    const hero = document.querySelector(".hero");
+    if (canvas && hero) {
+      try {
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color("#82b9b5");
+        const camera = new THREE.PerspectiveCamera(36, 16 / 9, 0.1, 100);
+        camera.position.set(0, 12, 14);
+        camera.lookAt(0, 0, 0);
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: "low-power" });
+        renderer.setPixelRatio(1);
+        renderer.setSize(384, 216, false);
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.shadowMap.enabled = false;
+        scene.add(new THREE.HemisphereLight("#fff4cf", "#34433a", 2.2));
+        const sunlight = new THREE.DirectionalLight("#ffffff", 2.5);
+        sunlight.position.set(-5, 12, 8);
+        scene.add(sunlight);
+
+        function block(width, height, depth, color, x, y, z, parent = scene) {
+          const mesh = new THREE.Mesh(
+            new THREE.BoxGeometry(width, height, depth),
+            new THREE.MeshLambertMaterial({ color })
+          );
+          mesh.position.set(x, y, z);
+          parent.add(mesh);
+          return mesh;
+        }
+
+        const roadX = 3.4;
+        const ground = new THREE.Mesh(new THREE.PlaneGeometry(70, 70), new THREE.MeshLambertMaterial({ color: "#568462" }));
+        ground.rotation.x = -Math.PI / 2;
+        ground.position.y = -0.12;
+        scene.add(ground);
+        const road = new THREE.Mesh(new THREE.PlaneGeometry(6.2, 44), new THREE.MeshLambertMaterial({ color: "#373f3d" }));
+        road.rotation.x = -Math.PI / 2;
+        road.position.set(roadX, -0.08, 0);
+        scene.add(road);
+        for (const edge of [-1, 1]) {
+          block(0.18, 0.08, 44, "#f4c744", roadX + edge * 3.02, 0.01, 0);
+        }
+        for (let dash = -18; dash <= 18; dash += 4) {
+          block(0.12, 0.06, 1.5, "#eee8d8", roadX, 0.02, dash);
+        }
+        for (let row = 0; row < 2; row += 1) {
+          for (let column = 0; column < 10; column += 1) {
+            const shade = (row + column) % 2 === 0 ? "#f4f1e8" : "#202625";
+            block(0.62, 0.1, 0.55, shade, roadX - 2.79 + column * 0.62, 0.03, -8 + row * 0.55);
+          }
+        }
+
+        for (let tree = 0; tree < 7; tree += 1) {
+          const positionZ = -16 + tree * 5;
+          for (const side of [-1, 1]) {
+            const positionX = roadX + side * (5.2 + (tree % 2) * 1.1);
+            block(0.45, 1.15, 0.45, "#79563b", positionX, 0.5, positionZ);
+            block(1.7, 1.1, 1.7, tree % 2 ? "#346b4a" : "#438052", positionX, 1.45, positionZ);
+            block(1.05, 0.75, 1.05, "#578e55", positionX, 2.1, positionZ);
+          }
+        }
+
+        const car = new THREE.Group();
+        car.position.set(roadX, 0.13, 1.6);
+        scene.add(car);
+        block(1.65, 0.38, 2.35, "#d83c30", 0, 0.39, 0, car);
+        block(1.15, 0.38, 1.05, "#f4c744", 0, 0.76, 0.05, car);
+        block(0.87, 0.08, 0.85, "#243636", 0, 0.98, 0.05, car);
+        block(1.9, 0.14, 0.22, "#202625", 0, 0.62, 1.12, car);
+        block(1.2, 0.12, 0.2, "#f4c744", 0, 0.63, -1.08, car);
+        for (const side of [-1, 1]) {
+          for (const axle of [-1, 1]) {
+            block(0.38, 0.43, 0.58, "#202625", side * 0.84, 0.27, axle * 0.72, car);
+            block(0.12, 0.18, 0.18, "#e4ded0", side * 0.84, 0.35, axle * 0.72, car);
+          }
+        }
+        block(0.32, 0.12, 0.08, "#fff1c2", -0.43, 0.53, -1.2, car);
+        block(0.32, 0.12, 0.08, "#fff1c2", 0.43, 0.53, -1.2, car);
+
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let pointerX = 0;
+        let pointerY = 0;
+        let sceneVisible = true;
+        hero.addEventListener("pointermove", event => {
+          const bounds = hero.getBoundingClientRect();
+          pointerX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 1.2;
+          pointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 0.4;
+        });
+        new IntersectionObserver(entries => { sceneVisible = entries[0].isIntersecting; }).observe(hero);
+
+        function animate(time) {
+          if (!prefersReducedMotion && sceneVisible && !document.hidden) {
+            const seconds = time * 0.001;
+            car.position.z = 1.6 + Math.sin(seconds * 1.1) * 0.32;
+            car.position.y = 0.13 + Math.abs(Math.sin(seconds * 2.1)) * 0.08;
+            car.rotation.y = Math.sin(seconds * 0.8) * 0.06;
+            camera.position.x += (pointerX - camera.position.x) * 0.012;
+            camera.position.y += (12 + pointerY - camera.position.y) * 0.012;
+            camera.lookAt(0, 0, 0);
+          }
+          renderer.render(scene, camera);
+          if (!prefersReducedMotion) window.requestAnimationFrame(animate);
+        }
+
+        canvas.dataset.ready = "true";
+        animate(0);
+      } catch (error) {
+        canvas.hidden = true;
+        console.warn("The pixel race scene could not be initialized.", error);
+      }
+    }
+  </script>
+</body>
+</html>
