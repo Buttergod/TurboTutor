@@ -225,6 +225,16 @@
     .eyebrow { letter-spacing: 1.2px; }
     .hero-copy { font-size: 16px; }
     .track-strip { min-height: 8px; background: repeating-linear-gradient(90deg, var(--ink) 0 18px, var(--yellow) 18px 36px); }
+    .race-rail { border-block: 1px solid #39423e; background: #252d2b; color: white; padding-block: 15px; }
+    .race-rail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .race-rail-item { min-height: 86px; display: flex; align-items: center; gap: 16px; padding-inline: 20px; }
+    .race-rail-item + .race-rail-item { border-left: 1px solid #4a534e; }
+    .race-rail-item img { width: 75px; height: 66px; object-fit: contain; flex: none; }
+    .race-rail-item p { margin: 0; color: #bfc7c1; font-size: 10px; line-height: 1.5; }
+    .race-rail-item strong { display: block; margin-bottom: 4px; color: white; font-family: var(--display); font-size: 19px; text-transform: uppercase; }
+    .step-trophy { width: 54px; height: 54px; float: right; object-fit: contain; margin: -16px 5px 0 12px; }
+    .promise-row { grid-template-columns: 1.05fr 1fr auto; }
+    .promise-car { width: clamp(130px, 17vw, 220px); height: auto; align-self: end; opacity: .9; }
     .nav-tools { display: flex; align-items: center; gap: 10px; }
     .theme-toggle { width: 38px; height: 38px; border: 1px solid var(--line); background: transparent; cursor: pointer; }
     .race-status { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 10px; font-weight: 700; }
@@ -363,6 +373,13 @@
     [data-theme="dark"] .merch-section, [data-theme="dark"] .policy-section { background: #202725; }
     [data-theme="dark"] .build-label, [data-theme="dark"] .policy-ack { color: var(--ink); }
     @media (max-width: 760px) {
+      .race-rail-grid { grid-template-columns: 1fr; }
+      .race-rail-item { min-height: 70px; padding: 8px 0; }
+      .race-rail-item + .race-rail-item { border-top: 1px solid #4a534e; border-left: 0; }
+      .race-rail-item img { width: 62px; height: 54px; }
+      .promise-row { grid-template-columns: 1fr auto; gap: 18px; }
+      .promise-row h2, .promise-copy { grid-column: 1 / -1; }
+      .promise-car { width: 150px; grid-column: 2; justify-self: end; margin-top: -28px; }
       .specialty-grid { grid-template-columns: 1fr; }
       .merch-grid { grid-template-columns: 1fr; }
       .policy-grid { grid-template-columns: 1fr; gap: 3px; }
@@ -407,6 +424,14 @@
     <div class="ticker" aria-label="Our tutoring approach">
       <div class="wrap ticker-track"><span>Grades 1-8 <b aria-hidden="true">&#9733;</b></span><span>One-to-one sessions <b aria-hidden="true">&#9733;</b></span><span>Math · English · Science <b aria-hidden="true">&#9733;</b></span></div>
     </div>
+
+    <section class="race-rail" aria-label="TurboTutor paddock">
+      <div class="wrap race-rail-grid">
+        <div class="race-rail-item"><img src="race-trophy.svg" alt=""><p><strong>Study podium</strong>Celebrate progress, one skill at a time.</p></div>
+        <div class="race-rail-item"><img src="open-wheel-car.svg" alt=""><p><strong>Find your pace</strong>Choose a session length that fits.</p></div>
+        <div class="race-rail-item"><img src="pit-garage.svg" alt=""><p><strong>Back in the garage</strong>Review, practice, and try again.</p></div>
+      </div>
+    </section>
 
     <section class="plan-section" id="plans" aria-labelledby="plans-title">
       <div class="wrap">
@@ -514,7 +539,7 @@
         <div class="steps">
           <article class="step"><span class="step-number">01</span><h3>Choose a plan</h3><p>Pick a weekly rhythm that works for your family and your student's grade.</p></article>
           <article class="step"><span class="step-number">02</span><h3>Meet your tutor</h3><p>Tell us what feels easy, what's tricky, and what your student wants to work on.</p></article>
-          <article class="step"><span class="step-number">03</span><h3>Build momentum</h3><p>Short, focused sessions turn practice into progress, one week at a time.</p></article>
+          <article class="step"><img class="step-trophy" src="race-trophy.svg" alt="" loading="lazy"><span class="step-number">03</span><h3>Build momentum</h3><p>Short, focused sessions turn practice into progress, one week at a time.</p></article>
         </div>
       </div>
     </section>
@@ -523,6 +548,7 @@
       <div class="wrap promise-row">
         <h2 id="promise-title">A clear route<br>for <span>every learner.</span></h2>
         <p class="promise-copy">See the class length, session count, and suggested price before you request a plan. We confirm the schedule and answer your questions before you decide to enroll.</p>
+        <img class="promise-car" src="open-wheel-car.svg" alt="" loading="lazy">
       </div>
     </section>
 
