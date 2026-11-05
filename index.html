@@ -12,13 +12,13 @@
   <style>
     :root {
       color-scheme: light;
-      --paper: #f4f1e8;
-      --ink: #202625;
-      --muted: #656b68;
-      --red: #e44332;
-      --yellow: #f4c744;
-      --blue: #a9d8da;
-      --line: #d7d4ca;
+      --paper: #f5f2e9;
+      --ink: #202725;
+      --muted: #5d6662;
+      --red: #d94232;
+      --yellow: #f2c54b;
+      --blue: #a8d1cf;
+      --line: #d7d3c8;
       --display: "Barlow Condensed", Impact, sans-serif;
       --body: "DM Sans", sans-serif;
     }
@@ -46,10 +46,9 @@
     .cart-count { min-width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; background: var(--red); color: white; font-size: 11px; }
     .menu-button { display: none; border: 0; background: none; padding: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
 
-    .hero { min-height: 560px; display: flex; align-items: center; position: relative; isolation: isolate; overflow: hidden; background: #283130; color: white; }
-    .pixel-scene { position: absolute; z-index: -1; inset: 0; overflow: hidden; }
-    .pixel-scene canvas { width: 100%; height: 100%; image-rendering: pixelated; object-fit: cover; }
-    .hero::before { position: absolute; z-index: 0; inset: 0; background: linear-gradient(90deg, rgba(17, 24, 23, .94) 0%, rgba(17, 24, 23, .72) 42%, rgba(17, 24, 23, .12) 100%); content: ""; pointer-events: none; }
+    .hero { min-height: 590px; display: flex; align-items: center; position: relative; isolation: isolate; overflow: hidden; background: #283130; color: white; }
+    .hero-photo { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 56%; }
+    .hero::before { position: absolute; z-index: 0; inset: 0; background: linear-gradient(90deg, rgba(17, 24, 23, .94) 0%, rgba(17, 24, 23, .76) 42%, rgba(17, 24, 23, .18) 100%); content: ""; pointer-events: none; }
     .hero::after { position: absolute; z-index: 3; right: 0; bottom: 0; left: 0; height: 12px; background: repeating-linear-gradient(135deg, var(--paper) 0 12px, transparent 12px 24px); content: ""; }
     .hero-inner { position: relative; z-index: 2; padding-block: 86px 100px; animation: enter .65s ease both; }
     .eyebrow { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px; color: var(--yellow); font-size: 11px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; }
@@ -88,8 +87,11 @@
     .plan-grade { margin-bottom: 8px; color: var(--red); font-size: 10px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; }
     .plan-result h3 { margin-bottom: 8px; font-family: var(--display); font-size: 34px; font-weight: 800; line-height: 1; text-transform: uppercase; }
     .plan-description { max-width: 620px; margin-bottom: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
-    .plan-result-action { display: grid; justify-items: end; gap: 9px; }
-    .price-note { margin: 0; color: var(--muted); font-size: 11px; }
+    .plan-result-action { display: grid; justify-items: end; gap: 8px; }
+    .plan-price { margin: 0; font-family: var(--display); font-size: 37px; font-weight: 800; line-height: 1; }
+    .plan-price small { color: var(--muted); font-family: var(--body); font-size: 11px; font-weight: 500; }
+    .price-detail { max-width: 230px; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.5; text-align: right; }
+    .draft-price-note { margin: 0; color: #555b53; font-size: 10px; font-weight: 600; }
     .plans-footnote { margin: 17px 0 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
     .selection-list { display: grid; gap: 10px; }
     .selection-item { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
@@ -175,15 +177,15 @@
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
     @media (max-width: 760px) {
       .wrap { width: min(100% - 32px, 560px); }
-      .nav-row { min-height: 65px; gap: 10px; }
-      .brand { font-size: 23px; }
-      .brand-mark { width: 27px; height: 27px; }
+      .nav-row { min-height: 65px; gap: 6px; }
+      .brand { gap: 7px; font-size: 20px; }
+      .brand-mark { width: 24px; height: 24px; font-size: 14px; }
       .menu-button { display: inline-flex; }
       .main-nav { position: absolute; top: 64px; right: 0; left: 0; display: none; flex-direction: column; align-items: stretch; gap: 0; border-bottom: 1px solid var(--line); background: var(--paper); padding: 6px 16px 12px; }
       .main-nav.open { display: flex; }
       .nav-link { padding: 13px 4px; }
       .nav-link::after { right: auto; bottom: 6px; width: 32px; }
-      .cart-button { padding: 7px 9px; font-size: 11px; }
+      .cart-button { gap: 6px; padding: 7px; font-size: 10px; }
       .hero { min-height: 510px; }
       .hero::before { background: linear-gradient(90deg, rgba(17, 24, 23, .92), rgba(17, 24, 23, .58) 70%, rgba(17, 24, 23, .25)); }
       .hero-inner { padding-block: 72px 85px; }
@@ -198,6 +200,7 @@
       .plan-result { grid-template-columns: 1fr; gap: 17px; padding: 20px; }
       .plan-result-action { justify-items: stretch; }
       .plan-result-action .button { width: 100%; }
+        .hero-photo { object-position: 63% center; }
       .steps { grid-template-columns: 1fr; }
       .step, .step + .step { padding: 19px 0; border-left: 0; border-bottom: 1px solid var(--line); }
       .step-number { margin-bottom: 10px; }
@@ -228,60 +231,60 @@
 
   <main>
     <section class="hero" id="home" aria-labelledby="hero-title">
-      <div class="pixel-scene"><canvas id="race-canvas" aria-hidden="true"></canvas></div>
+      <img class="hero-photo" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&amp;fit=crop&amp;w=2200&amp;q=85" alt="A Porsche sports car on a winding road" fetchpriority="high">
       <div class="wrap hero-inner">
         <p class="eyebrow">A little help goes a long way</p>
         <h1 id="hero-title">Ready.<br>Set.<br><span>Learn.</span></h1>
-        <p class="hero-copy">One-on-one tutoring for grades 1-8, built around your kid's pace. More confidence, fewer homework pit stops.</p>
-        <a class="button" href="#plans">Find your plan <span aria-hidden="true">&#8594;</span></a>
-        <p class="hero-note"><strong>Grades 1-8</strong> <span aria-hidden="true">/</span> Math, reading &amp; more</p>
+        <p class="hero-copy">Patient, one-on-one tutoring for grades 1-8. Choose a subject, find a pace that fits, and build confidence one class at a time.</p>
+        <a class="button" href="#plans">Explore tutoring plans <span aria-hidden="true">&#8594;</span></a>
+        <p class="hero-note"><strong>Grades 1-8</strong> <span aria-hidden="true">/</span> Math, English &amp; science</p>
       </div>
     </section>
 
     <div class="ticker" aria-label="Our tutoring approach">
-      <div class="wrap ticker-track"><span>Small steps, big wins <b aria-hidden="true">&#9733;</b></span><span>Made for grades 1-8 <b aria-hidden="true">&#9733;</b></span><span>Learning at their pace <b aria-hidden="true">&#9733;</b></span></div>
+      <div class="wrap ticker-track"><span>Clear plans, no surprises <b aria-hidden="true">&#9733;</b></span><span>Made for grades 1-8 <b aria-hidden="true">&#9733;</b></span><span>Learn at your own pace <b aria-hidden="true">&#9733;</b></span></div>
     </div>
 
     <section class="plan-section" id="plans" aria-labelledby="plans-title">
       <div class="wrap">
         <div class="section-heading">
           <div><p class="section-kicker">Build a course request</p><h2 id="plans-title">Choose your track</h2></div>
-          <p>Pick a grade, subject, and class format. Add as many courses as you need, then send your request directly to the tutor.</p>
+          <p>Choose a grade, subject, and class format. See the rate and exactly what's included before adding a course to your request.</p>
         </div>
         <div class="picker-group">
           <p class="picker-label">1. Choose a grade <span id="grade-caption">Grade 1 selected</span></p>
           <div class="tab-row" id="grade-tabs" role="tablist" aria-label="Choose a grade">
-            <button class="choice-tab" role="tab" aria-selected="true" data-grade="1">Grade 1</button>
-            <button class="choice-tab" role="tab" aria-selected="false" data-grade="2">Grade 2</button>
-            <button class="choice-tab" role="tab" aria-selected="false" data-grade="3">Grade 3</button>
-            <button class="choice-tab" role="tab" aria-selected="false" data-grade="4">Grade 4</button>
-            <button class="choice-tab" role="tab" aria-selected="false" data-grade="5">Grade 5</button>
-            <button class="choice-tab" role="tab" aria-selected="false" data-grade="6">Grade 6</button>
-            <button class="choice-tab" role="tab" aria-selected="false" data-grade="7">Grade 7</button>
-            <button class="choice-tab" role="tab" aria-selected="false" data-grade="8">Grade 8</button>
+            <button class="choice-tab" type="button" role="tab" aria-selected="true" aria-controls="selected-course" data-grade="1">Grade 1</button>
+            <button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="selected-course" tabindex="-1" data-grade="2">Grade 2</button>
+            <button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="selected-course" tabindex="-1" data-grade="3">Grade 3</button>
+            <button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="selected-course" tabindex="-1" data-grade="4">Grade 4</button>
+            <button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="selected-course" tabindex="-1" data-grade="5">Grade 5</button>
+            <button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="selected-course" tabindex="-1" data-grade="6">Grade 6</button>
+            <button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="selected-course" tabindex="-1" data-grade="7">Grade 7</button>
+            <button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="selected-course" tabindex="-1" data-grade="8">Grade 8</button>
           </div>
         </div>
         <div class="picker-group">
           <p class="picker-label">2. Choose a subject <span id="subject-caption">Science selected</span></p>
           <div class="tab-row" id="subject-tabs" role="tablist" aria-label="Choose a subject">
-            <button class="choice-tab" role="tab" aria-selected="true" data-subject="Science">Science</button>
-            <button class="choice-tab" role="tab" aria-selected="false" data-subject="English">English</button>
-            <button class="choice-tab" role="tab" aria-selected="false" data-subject="Math">Math</button>
-          </article>
+            <button class="choice-tab" type="button" role="tab" aria-selected="true" aria-controls="selected-course" data-subject="Science">Science</button>
+            <button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="selected-course" tabindex="-1" data-subject="English">English</button>
+            <button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="selected-course" tabindex="-1" data-subject="Math">Math</button>
+          </div>
         </div>
         <div class="picker-group">
           <p class="picker-label">3. Choose a class type <span id="format-caption">Single class selected</span></p>
           <div class="tab-row" id="format-tabs" role="tablist" aria-label="Choose a class type">
-            <button class="choice-tab" role="tab" aria-selected="true" data-format="Single class">Single class</button>
-            <button class="choice-tab" role="tab" aria-selected="false" data-format="Monthly class">Monthly class</button>
-            <button class="choice-tab" role="tab" aria-selected="false" data-format="Yearly class">Yearly class</button>
+            <button class="choice-tab" type="button" role="tab" aria-selected="true" aria-controls="selected-course" data-format="Single class">Single class</button>
+            <button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="selected-course" tabindex="-1" data-format="Monthly class">Monthly class</button>
+            <button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="selected-course" tabindex="-1" data-format="Yearly class">Yearly class</button>
           </div>
         </div>
-        <article class="plan-result" aria-live="polite">
-          <div><p class="plan-grade" id="selected-course-label">Grade 1 / Science</p><h3 id="selected-course-title">Single class</h3><p class="plan-description" id="selected-course-description">One tutoring class. Schedule and session details are confirmed directly with the tutor.</p></div>
-          <div class="plan-result-action"><p class="price-note">Price confirmed on request</p><button class="button" id="add-course">Add to request <span aria-hidden="true">&#8594;</span></button></div>
+        <article class="plan-result" id="selected-course" role="tabpanel" aria-live="polite">
+          <div><p class="plan-grade" id="selected-course-label">Grade 1 / Science</p><h3 id="selected-course-title">Single class</h3><p class="plan-description" id="selected-course-description">One 45-minute tutoring class for Grade 1 Science.</p></div>
+          <div class="plan-result-action"><p class="draft-price-note">Suggested starting rate</p><p class="plan-price" id="selected-price">$30 <small>/ class</small></p><p class="price-detail" id="selected-detail">One 45-minute class</p><button class="button" id="add-course">Add to request <span aria-hidden="true">&#8594;</span></button></div>
         </article>
-        <p class="plans-footnote">Select options to build your request. Pricing, schedule, and class details will be confirmed with you before payment.</p>
+        <p class="plans-footnote">Suggested launch rates; edit these to match your actual pricing before publishing. Requests are free, and no payment is taken on this site.</p>
       </div>
     </section>
 
@@ -301,8 +304,8 @@
 
     <section class="promise" aria-labelledby="promise-title">
       <div class="wrap promise-row">
-        <h2 id="promise-title">It's not about<br>being <span>the fastest.</span></h2>
-        <p class="promise-copy">It's about feeling good in the driver's seat. TurboTutor helps kids build skills without the pressure, with patient one-on-one support that meets them where they are.</p>
+        <h2 id="promise-title">A clear route<br>for <span>every learner.</span></h2>
+        <p class="promise-copy">See the class length, session count, and suggested price before you request a plan. We confirm the schedule and answer your questions before you decide to enroll.</p>
       </div>
     </section>
 
@@ -318,8 +321,9 @@
         <div class="section-heading"><div><p class="section-kicker">Quick answers</p><h2 id="faq-title">Before the start</h2></div></div>
         <div class="faq-list">
           <details><summary>What subjects can my student choose?</summary><p>Choose Science, English, or Math for any grade from 1 through 8. You can add more than one course to a single request.</p></details>
-          <details><summary>What does each class type include?</summary><p>Choose a single class, monthly class, or yearly class. The tutor will confirm the session schedule, exact class details, and price with you before you agree to enroll.</p></details>
-          <details><summary>How do I request enrollment?</summary><p>Add courses, enter your contact details and payment preference, then choose an email or text draft. Your email or messaging app opens with the request filled in. Review it and press Send to contact the tutor.</p></details>
+          <details><summary>What does each class type include?</summary><p>A single class is one 45-minute session. The monthly plan includes four 45-minute sessions, and the yearly plan includes 48. Confirm the schedule and any specific learning needs with the tutor before enrolling.</p></details>
+          <details><summary>Are the listed prices final?</summary><p>The displayed rates are suggested launch prices because final pricing was not provided. Update them to your actual rates before publishing. You can confirm the total and schedule with the tutor before agreeing to enroll.</p></details>
+          <details><summary>How do I request enrollment?</summary><p>Add courses, enter your contact details and payment preference, then choose an email or text draft. Your email or messaging app opens with the request filled in. Review it and press Send to contact the tutor. No charge is made by this site.</p></details>
           <details><summary>Can I pay by cash or Zelle?</summary><p>Select cash or Zelle in the request form. No payment is collected on this website; confirm payment instructions directly with the tutor.</p></details>
         </div>
       </div>
@@ -364,6 +368,11 @@
     const draftActions = document.getElementById("draft-actions");
     const toast = document.getElementById("toast");
     const picker = { grade: 1, subject: "Science", format: "Single class" };
+    const planRates = {
+      "Single class": { amount: 30, period: "class", sessions: "One 45-minute class", priceDetail: "One 45-minute class", count: 1 },
+      "Monthly class": { amount: 120, period: "month", sessions: "Four 45-minute classes each month", priceDetail: "Four classes · 45 minutes each", count: 4 },
+      "Yearly class": { amount: 1080, period: "year", sessions: "48 45-minute classes per year", priceDetail: "48 classes · $22.50 per class · paid upfront · save $360", count: 48 }
+    };
     let toastTimer;
 
     function showToast(message) {
@@ -375,25 +384,55 @@
 
     function setTabSelection(container, selector, selectedValue, dataKey) {
       container.querySelectorAll(selector).forEach(tab => {
-        tab.setAttribute("aria-selected", String(tab.dataset[dataKey] === String(selectedValue)));
+        const selected = tab.dataset[dataKey] === String(selectedValue);
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      });
+    }
+
+    function connectTabList(containerId, selector, dataKey, onSelect) {
+      const container = document.getElementById(containerId);
+      const tabs = [...container.querySelectorAll(selector)];
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => {
+          setTabSelection(container, selector, tab.dataset[dataKey], dataKey);
+          onSelect(tab.dataset[dataKey]);
+        });
+        tab.addEventListener("keydown", event => {
+          const direction = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1
+            : event.key === "ArrowLeft" || event.key === "ArrowUp" ? -1
+              : event.key === "Home" ? -index
+                : event.key === "End" ? tabs.length - index - 1
+                  : 0;
+          if (!direction) return;
+          event.preventDefault();
+          tabs[(index + direction + tabs.length) % tabs.length].focus();
+          tabs[(index + direction + tabs.length) % tabs.length].click();
+        });
       });
     }
 
     function updateCurrentCourse() {
+      const rate = planRates[picker.format];
       document.getElementById("grade-caption").textContent = `Grade ${picker.grade} selected`;
       document.getElementById("subject-caption").textContent = `${picker.subject} selected`;
       document.getElementById("format-caption").textContent = `${picker.format} selected`;
       document.getElementById("selected-course-label").textContent = `Grade ${picker.grade} / ${picker.subject}`;
       document.getElementById("selected-course-title").textContent = picker.format;
-      const duration = picker.format === "Single class" ? "One tutoring class" : `A ${picker.format.toLowerCase()} enrollment`;
-      document.getElementById("selected-course-description").textContent = `${duration} for Grade ${picker.grade} ${picker.subject}. Schedule and session details are confirmed directly with the tutor.`;
+      document.getElementById("selected-course-description").textContent = `${rate.sessions} for Grade ${picker.grade} ${picker.subject}. One-on-one tutoring tailored to the student's current goals.`;
+      document.getElementById("selected-price").innerHTML = `$${rate.amount.toLocaleString("en-US")} <small>/ ${rate.period}</small>`;
+      document.getElementById("selected-detail").textContent = rate.priceDetail;
     }
 
     function getCurrentCourse() {
+      const rate = planRates[picker.format];
       return {
         grade: picker.grade,
         subject: picker.subject,
         format: picker.format,
+        amount: rate.amount,
+        period: rate.period,
+        sessions: rate.sessions,
         key: `${picker.grade}-${picker.subject}-${picker.format}`
       };
     }
@@ -407,28 +446,25 @@
         selectionList.innerHTML = '<p class="cart-empty">Choose a grade, subject, and class type to add your first course.</p>';
         return;
       }
-      selectionList.innerHTML = selectedCourses.map((course, index) => `<div class="selection-item"><strong>Grade ${course.grade} ${course.subject}</strong><span>${course.format} · price confirmed on request</span><button class="remove-button" data-remove="${index}">Remove</button></div>`).join("");
+      selectionList.innerHTML = selectedCourses.map((course, index) => `<div class="selection-item"><strong>Grade ${course.grade} ${course.subject}</strong><span>${course.format} · ${course.sessions}</span><span>$${course.amount.toLocaleString("en-US")} / ${course.period}</span><button class="remove-button" data-remove="${index}">Remove</button></div>`).join("");
       selectionList.querySelectorAll("[data-remove]").forEach(button => button.addEventListener("click", () => {
         selectedCourses.splice(Number(button.dataset.remove), 1);
         renderSelections();
       }));
     }
 
-    document.querySelectorAll("#grade-tabs [data-grade]").forEach(tab => tab.addEventListener("click", () => {
-      picker.grade = Number(tab.dataset.grade);
-      setTabSelection(document.getElementById("grade-tabs"), "[data-grade]", picker.grade, "grade");
+    connectTabList("grade-tabs", "[data-grade]", "grade", value => {
+      picker.grade = Number(value);
       updateCurrentCourse();
-    }));
-    document.querySelectorAll("#subject-tabs [data-subject]").forEach(tab => tab.addEventListener("click", () => {
-      picker.subject = tab.dataset.subject;
-      setTabSelection(document.getElementById("subject-tabs"), "[data-subject]", picker.subject, "subject");
+    });
+    connectTabList("subject-tabs", "[data-subject]", "subject", value => {
+      picker.subject = value;
       updateCurrentCourse();
-    }));
-    document.querySelectorAll("#format-tabs [data-format]").forEach(tab => tab.addEventListener("click", () => {
-      picker.format = tab.dataset.format;
-      setTabSelection(document.getElementById("format-tabs"), "[data-format]", picker.format, "format");
+    });
+    connectTabList("format-tabs", "[data-format]", "format", value => {
+      picker.format = value;
       updateCurrentCourse();
-    }));
+    });
 
     document.getElementById("add-course").addEventListener("click", () => {
       const course = getCurrentCourse();
@@ -473,7 +509,7 @@
     requestForm.addEventListener("submit", event => {
       event.preventDefault();
       const formData = new FormData(requestForm);
-      const courses = selectedCourses.map(course => `- Grade ${course.grade} ${course.subject}: ${course.format} (price to be confirmed)`).join("\n");
+      const courses = selectedCourses.map(course => `- Grade ${course.grade} ${course.subject}: ${course.format}, ${course.sessions}, $${course.amount} per ${course.period}`).join("\n");
       const message = [
         "TurboTutor enrollment request",
         "",
@@ -515,120 +551,6 @@
 
     updateCurrentCourse();
     renderSelections();
-  </script>
-  <script type="module">
-    import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
-
-    const canvas = document.getElementById("race-canvas");
-    const hero = document.querySelector(".hero");
-    if (canvas && hero) {
-      try {
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color("#82b9b5");
-        const camera = new THREE.PerspectiveCamera(36, 16 / 9, 0.1, 100);
-        camera.position.set(0, 12, 14);
-        camera.lookAt(0, 0, 0);
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: "low-power" });
-        renderer.setPixelRatio(1);
-        renderer.setSize(384, 216, false);
-        renderer.outputColorSpace = THREE.SRGBColorSpace;
-        renderer.shadowMap.enabled = false;
-        scene.add(new THREE.HemisphereLight("#fff4cf", "#34433a", 2.2));
-        const sunlight = new THREE.DirectionalLight("#ffffff", 2.5);
-        sunlight.position.set(-5, 12, 8);
-        scene.add(sunlight);
-
-        function block(width, height, depth, color, x, y, z, parent = scene) {
-          const mesh = new THREE.Mesh(
-            new THREE.BoxGeometry(width, height, depth),
-            new THREE.MeshLambertMaterial({ color })
-          );
-          mesh.position.set(x, y, z);
-          parent.add(mesh);
-          return mesh;
-        }
-
-        const roadX = 3.4;
-        const ground = new THREE.Mesh(new THREE.PlaneGeometry(70, 70), new THREE.MeshLambertMaterial({ color: "#568462" }));
-        ground.rotation.x = -Math.PI / 2;
-        ground.position.y = -0.12;
-        scene.add(ground);
-        const road = new THREE.Mesh(new THREE.PlaneGeometry(6.2, 44), new THREE.MeshLambertMaterial({ color: "#373f3d" }));
-        road.rotation.x = -Math.PI / 2;
-        road.position.set(roadX, -0.08, 0);
-        scene.add(road);
-        for (const edge of [-1, 1]) {
-          block(0.18, 0.08, 44, "#f4c744", roadX + edge * 3.02, 0.01, 0);
-        }
-        for (let dash = -18; dash <= 18; dash += 4) {
-          block(0.12, 0.06, 1.5, "#eee8d8", roadX, 0.02, dash);
-        }
-        for (let row = 0; row < 2; row += 1) {
-          for (let column = 0; column < 10; column += 1) {
-            const shade = (row + column) % 2 === 0 ? "#f4f1e8" : "#202625";
-            block(0.62, 0.1, 0.55, shade, roadX - 2.79 + column * 0.62, 0.03, -8 + row * 0.55);
-          }
-        }
-
-        for (let tree = 0; tree < 7; tree += 1) {
-          const positionZ = -16 + tree * 5;
-          for (const side of [-1, 1]) {
-            const positionX = roadX + side * (5.2 + (tree % 2) * 1.1);
-            block(0.45, 1.15, 0.45, "#79563b", positionX, 0.5, positionZ);
-            block(1.7, 1.1, 1.7, tree % 2 ? "#346b4a" : "#438052", positionX, 1.45, positionZ);
-            block(1.05, 0.75, 1.05, "#578e55", positionX, 2.1, positionZ);
-          }
-        }
-
-        const car = new THREE.Group();
-        car.position.set(roadX, 0.13, 1.6);
-        scene.add(car);
-        block(1.65, 0.38, 2.35, "#d83c30", 0, 0.39, 0, car);
-        block(1.15, 0.38, 1.05, "#f4c744", 0, 0.76, 0.05, car);
-        block(0.87, 0.08, 0.85, "#243636", 0, 0.98, 0.05, car);
-        block(1.9, 0.14, 0.22, "#202625", 0, 0.62, 1.12, car);
-        block(1.2, 0.12, 0.2, "#f4c744", 0, 0.63, -1.08, car);
-        for (const side of [-1, 1]) {
-          for (const axle of [-1, 1]) {
-            block(0.38, 0.43, 0.58, "#202625", side * 0.84, 0.27, axle * 0.72, car);
-            block(0.12, 0.18, 0.18, "#e4ded0", side * 0.84, 0.35, axle * 0.72, car);
-          }
-        }
-        block(0.32, 0.12, 0.08, "#fff1c2", -0.43, 0.53, -1.2, car);
-        block(0.32, 0.12, 0.08, "#fff1c2", 0.43, 0.53, -1.2, car);
-
-        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        let pointerX = 0;
-        let pointerY = 0;
-        let sceneVisible = true;
-        hero.addEventListener("pointermove", event => {
-          const bounds = hero.getBoundingClientRect();
-          pointerX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 1.2;
-          pointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 0.4;
-        });
-        new IntersectionObserver(entries => { sceneVisible = entries[0].isIntersecting; }).observe(hero);
-
-        function animate(time) {
-          if (!prefersReducedMotion && sceneVisible && !document.hidden) {
-            const seconds = time * 0.001;
-            car.position.z = 1.6 + Math.sin(seconds * 1.1) * 0.32;
-            car.position.y = 0.13 + Math.abs(Math.sin(seconds * 2.1)) * 0.08;
-            car.rotation.y = Math.sin(seconds * 0.8) * 0.06;
-            camera.position.x += (pointerX - camera.position.x) * 0.012;
-            camera.position.y += (12 + pointerY - camera.position.y) * 0.012;
-            camera.lookAt(0, 0, 0);
-          }
-          renderer.render(scene, camera);
-          if (!prefersReducedMotion) window.requestAnimationFrame(animate);
-        }
-
-        canvas.dataset.ready = "true";
-        animate(0);
-      } catch (error) {
-        canvas.hidden = true;
-        console.warn("The pixel race scene could not be initialized.", error);
-      }
-    }
   </script>
 </body>
 </html>
