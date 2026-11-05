@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#f4f1e8">
   <title>TurboTutor | Learning in the fast lane</title>
   <meta name="description" content="Personal tutoring plans for grades 1-8. Find the right pace and help your student build confidence, one lap at a time.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -216,7 +217,8 @@
 
     .hero { min-height: 640px; background: radial-gradient(ellipse at 75% 55%, #53666a 0, #263333 49%, #171f20 100%); }
     .hero::before { background: linear-gradient(90deg, rgba(17, 24, 23, .96) 0%, rgba(17, 24, 23, .86) 38%, rgba(17, 24, 23, .12) 100%); }
-    .hero-photo { display: none; }
+    .hero-photo { position: absolute; z-index: -1; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 56%; }
+    .hero-scene { display: none; }
     .hero-scene { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; }
     .hero-scene canvas { display: block; width: 100%; height: 100%; }
     .hero-inner { padding-block: 92px 110px; }
@@ -249,6 +251,8 @@
     .duration-option[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
     .duration-option:focus-visible, .theme-toggle:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
     .duration-option small { display: block; margin-top: 2px; font-size: 8px; font-weight: 500; }
+    .duration-option[aria-pressed="true"] { position: relative; }
+    .delivery-summary { max-width: 620px; margin: 10px 0 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
     .plan-card .price-block { min-height: 85px; border-top: 1px solid var(--line); padding-top: 14px; }
     .plan-card .price { margin: 0; font-family: var(--display); font-size: 39px; font-weight: 800; line-height: 1; }
     .plan-card .price small { color: var(--muted); font-family: var(--body); font-size: 11px; font-weight: 500; }
@@ -268,8 +272,9 @@
     .deal-odds strong { color: var(--yellow); }
     .deal-terms { max-width: 500px; margin: 0; color: #cbd0cc; font-size: 10px; line-height: 1.7; }
     .wheel-panel { display: grid; justify-items: center; gap: 14px; }
-    .wheel-frame { position: relative; width: min(290px, 72vw); aspect-ratio: 1; border: 8px solid #d5d1c5; border-radius: 50%; background: #283130; box-shadow: 0 0 0 3px #49514d, 0 15px 40px rgba(0, 0, 0, .35); }
-    .wheel-frame canvas { width: 100%; height: 100%; border-radius: 50%; transition: transform 4.8s cubic-bezier(.12, .72, .12, 1); }
+    .wheel-frame { position: relative; width: min(290px, 72vw); aspect-ratio: 1; display: grid; place-items: center; border: 13px solid #202524; border-radius: 50%; background: repeating-conic-gradient(#4b524f 0 4deg, #242a28 4deg 8deg); box-shadow: inset 0 0 0 3px #848b84, 0 0 0 3px #49514d, 0 15px 40px rgba(0, 0, 0, .35); }
+    .wheel-frame::before { position: absolute; z-index: 1; inset: 8px; border: 2px solid rgba(238, 235, 222, .8); border-radius: 50%; content: ""; pointer-events: none; }
+    .wheel-frame canvas { width: 84%; height: 84%; border: 4px solid #d5d1c5; border-radius: 50%; transition: transform 4.8s cubic-bezier(.12, .72, .12, 1); }
     .wheel-pointer { position: absolute; z-index: 1; top: -17px; left: 50%; width: 0; height: 0; border-right: 13px solid transparent; border-left: 13px solid transparent; border-top: 25px solid var(--yellow); transform: translateX(-50%); }
     .wheel-center { position: absolute; top: 50%; left: 50%; width: 50px; height: 50px; display: grid; place-items: center; border: 3px solid #d5d1c5; border-radius: 50%; background: var(--ink); color: var(--yellow); font-family: var(--display); font-size: 15px; font-weight: 800; transform: translate(-50%, -50%); pointer-events: none; }
     .deal-result { min-height: 22px; margin: 0; color: var(--yellow); font-size: 13px; font-weight: 700; text-align: center; }
@@ -320,6 +325,51 @@
       .theme-toggle { width: 32px; height: 34px; }
       .choice-tab[data-subject] { flex: 1; min-width: 0; justify-content: center; }
     }
+    .specialty-section { background: var(--paper); }
+    .specialty-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .specialty-card { display: flex; min-width: 0; flex-direction: column; border: 1px solid var(--line); background: var(--card); padding: 22px; }
+    .specialty-card h3 { margin: 0 0 9px; font-family: var(--display); font-size: 30px; line-height: 1; text-transform: uppercase; }
+    .specialty-card p { color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .specialty-card .price { margin: 0 0 6px; font-family: var(--display); font-size: 34px; font-weight: 800; }
+    .specialty-card .specialty-price-note { margin: 0 0 15px; color: var(--muted); font-size: 10px; }
+    .specialty-card .button { width: 100%; margin-top: auto; }
+    .specialty-card.featured-specialty { border: 1px solid #9a7c39; background: #202725; color: #fffdf7; box-shadow: inset 0 4px 0 var(--yellow); }
+    .featured-specialty p { color: #d7dcd7; }
+    .featured-specialty .section-kicker { color: var(--yellow); }
+    .featured-specialty .price { color: var(--yellow); }
+    .seasonal-banner { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 18px; margin-bottom: 28px; border-left: 4px solid var(--yellow); background: #303936; padding: 16px 18px; }
+    .seasonal-flag { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid #818a83; color: var(--yellow); font-family: var(--display); font-size: 18px; font-weight: 800; }
+    .seasonal-banner p { margin: 0; color: #d7dcd7; font-size: 11px; }
+    .seasonal-banner h3 { margin: 3px 0; color: white; font-family: var(--display); font-size: 24px; text-transform: uppercase; }
+    .seasonal-validity { color: var(--yellow) !important; font-size: 10px !important; font-weight: 700; }
+    .merch-section { background: var(--panel); }
+    .merch-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .merch-item { min-height: 180px; display: flex; flex-direction: column; justify-content: space-between; border: 1px dashed #8d9189; background: repeating-linear-gradient(135deg, transparent 0 12px, rgba(32, 39, 37, .035) 12px 24px); padding: 17px; }
+    .merch-art { display: grid; min-height: 90px; place-items: center; color: var(--red); font-family: var(--display); font-size: 39px; font-weight: 900; text-transform: uppercase; }
+    .merch-item h3 { margin: 0; font-family: var(--display); font-size: 22px; text-transform: uppercase; }
+    .merch-item p { margin: 3px 0 0; color: var(--muted); font-size: 10px; }
+    .build-label { align-self: flex-start; border: 1px solid #666d67; padding: 5px 7px; color: #4a514c; font-size: 9px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
+    .policy-section { background: #e9e6dc; }
+    .policy-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; border-top: 1px solid var(--line); }
+    .policy-item { padding: 20px 10px 0 0; }
+    .policy-item strong { display: block; margin-bottom: 8px; color: var(--red); font-family: var(--display); font-size: 31px; }
+    .policy-item h3 { margin: 0 0 7px; font-family: var(--display); font-size: 22px; text-transform: uppercase; }
+    .policy-item p { max-width: 300px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .policy-note { margin: 22px 0 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
+    .policy-ack { display: flex; align-items: flex-start; gap: 9px; grid-column: 1 / -1; color: #424a45; font-size: 11px; line-height: 1.6; }
+    .policy-ack input { margin-top: 2px; accent-color: var(--red); }
+    [data-theme="dark"] .specialty-card { border-color: var(--line); }
+    [data-theme="dark"] .specialty-card.featured-specialty { background: #101514; }
+    [data-theme="dark"] .merch-section, [data-theme="dark"] .policy-section { background: #202725; }
+    [data-theme="dark"] .build-label, [data-theme="dark"] .policy-ack { color: var(--ink); }
+    @media (max-width: 760px) {
+      .specialty-grid { grid-template-columns: 1fr; }
+      .merch-grid { grid-template-columns: 1fr; }
+      .policy-grid { grid-template-columns: 1fr; gap: 3px; }
+      .policy-item { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+      .seasonal-banner { grid-template-columns: auto 1fr; }
+      .seasonal-validity { grid-column: 2; }
+    }
   </style>
 </head>
 <body>
@@ -331,10 +381,11 @@
       <nav class="main-nav" id="main-nav" aria-label="Main navigation">
         <a class="nav-link active" href="#home">Home</a>
         <a class="nav-link" href="#plans">Plans</a>
-        <a class="nav-link" href="#deals">Pit-lane deals</a>
-        <a class="nav-link" href="#how-it-works">How it works</a>
+        <a class="nav-link" href="#specialty">Programs</a>
+        <a class="nav-link" href="#deals">Offers</a>
+        <a class="nav-link" href="#merch">Gear</a>
+        <a class="nav-link" href="#policies">Policies</a>
         <a class="nav-link" href="#contact">Contact</a>
-        <a class="nav-link" href="#faq">FAQ</a>
       </nav>
       <div class="nav-tools"><span class="race-status">Accepting requests</span><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme">☾</button><button class="cart-button" id="open-cart" aria-label="Open cart, 0 items">Request <span class="cart-count" id="cart-count">0</span></button></div>
     </div>
@@ -342,7 +393,7 @@
 
   <main>
     <section class="hero" id="home" aria-labelledby="hero-title">
-      <div class="hero-scene"><canvas id="hero-canvas" aria-label="A red formula race car circling a circuit" role="img"></canvas></div>
+      <img class="hero-photo" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&amp;fit=crop&amp;w=2200&amp;q=85" alt="A sports car on a winding road" fetchpriority="high">
       <div class="wrap hero-inner">
         <p class="eyebrow">TurboTutor · Personal tutoring</p>
         <h1 id="hero-title">A better<br>way to<br><span>learn.</span></h1>
@@ -364,39 +415,69 @@
           <p>Pick a grade and subject, then compare weekly, monthly, and yearly tutoring. Each plan has three class lengths, with every price shown upfront.</p>
         </div>
         <div class="lap-progress" aria-hidden="true"><span>01 · GRADE</span><span class="line" id="lap-line"></span><span>02 · SUBJECT &nbsp; 03 · PLAN</span></div>
-        <div class="picker-group"><p class="picker-label">Select a grade <span id="grade-caption">Grade 1 · starting at $45 / 45 min</span></p><div class="tab-row" id="grade-tabs" role="tablist" aria-label="Choose a grade">
+        <div class="picker-group"><p class="picker-label">Select a grade <span id="grade-caption">Grade 1 · Zoom from $45 / 45 min weekly</span></p><div class="tab-row" id="grade-tabs" role="tablist" aria-label="Choose a grade">
           <button class="choice-tab" type="button" role="tab" aria-label="Grade 1" aria-selected="true" aria-controls="plan-cards" data-grade="1">01</button><button class="choice-tab" type="button" role="tab" aria-label="Grade 2" aria-selected="false" aria-controls="plan-cards" tabindex="-1" data-grade="2">02</button><button class="choice-tab" type="button" role="tab" aria-label="Grade 3" aria-selected="false" aria-controls="plan-cards" tabindex="-1" data-grade="3">03</button><button class="choice-tab" type="button" role="tab" aria-label="Grade 4" aria-selected="false" aria-controls="plan-cards" tabindex="-1" data-grade="4">04</button><button class="choice-tab" type="button" role="tab" aria-label="Grade 5" aria-selected="false" aria-controls="plan-cards" tabindex="-1" data-grade="5">05</button><button class="choice-tab" type="button" role="tab" aria-label="Grade 6" aria-selected="false" aria-controls="plan-cards" tabindex="-1" data-grade="6">06</button><button class="choice-tab" type="button" role="tab" aria-label="Grade 7" aria-selected="false" aria-controls="plan-cards" tabindex="-1" data-grade="7">07</button><button class="choice-tab" type="button" role="tab" aria-label="Grade 8" aria-selected="false" aria-controls="plan-cards" tabindex="-1" data-grade="8">08</button>
         </div></div>
         <div class="picker-group"><p class="picker-label">Select a subject <span id="subject-caption">Science</span></p><div class="tab-row" id="subject-tabs" role="tablist" aria-label="Choose a subject">
           <button class="choice-tab" type="button" role="tab" aria-selected="true" aria-controls="plan-cards" data-subject="Science" title="Science tutoring"><span class="subject-mark" aria-hidden="true">S</span>Science</button><button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="plan-cards" tabindex="-1" data-subject="English" title="English tutoring"><span class="subject-mark" aria-hidden="true">E</span>English</button><button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="plan-cards" tabindex="-1" data-subject="Math" title="Math tutoring"><span class="subject-mark" aria-hidden="true">M</span>Math</button>
         </div></div>
+        <div class="picker-group"><p class="picker-label">Choose where to meet <span id="delivery-caption">Zoom · included</span></p><div class="tab-row" id="delivery-tabs" role="tablist" aria-label="Choose online or library tutoring">
+          <button class="choice-tab" type="button" role="tab" aria-selected="true" aria-controls="plan-cards" data-delivery="zoom"><span class="subject-mark" aria-hidden="true">Z</span>Online · Zoom</button><button class="choice-tab" type="button" role="tab" aria-selected="false" aria-controls="plan-cards" tabindex="-1" data-delivery="library"><span class="subject-mark" aria-hidden="true">L</span>Public library <small>+$20 / 45 min</small></button>
+        </div><p class="delivery-summary" id="delivery-summary">Online sessions use Zoom. The tutor confirms the meeting link after enrollment.</p></div>
         <div class="plan-grid" id="plan-cards" aria-live="polite">
           <article class="plan-card" data-plan="weekly">
             <div class="plan-card-head"><div><p class="section-kicker">Flexible pace</p><h3>Weekly</h3></div><span class="plan-badge">1 class / week</span></div>
             <p class="plan-summary">A focused weekly session with no long-term commitment.</p>
-            <p class="duration-label">Class length</p><div class="duration-options" role="group" aria-label="Weekly class length"><button class="duration-option" type="button" data-duration="30" aria-pressed="false">30 min</button><button class="duration-option" type="button" data-duration="45" aria-pressed="true">45 min<small>Recommended</small></button><button class="duration-option" type="button" data-duration="60" aria-pressed="false">60 min</button></div>
+            <p class="duration-label">Class length</p><div class="duration-options" role="group" aria-label="Weekly class length"><button class="duration-option" type="button" data-duration="30" aria-pressed="false">30 min</button><button class="duration-option" type="button" data-duration="45" aria-pressed="false">45 min</button><button class="duration-option" type="button" data-duration="60" aria-pressed="true">60 min<small>Recommended</small></button></div>
             <div class="price-block"><p class="price" data-price>$45 <small>/ week</small></p><p class="per-session" data-price-detail>1 × 45-minute class each week</p></div>
-            <ul class="plan-includes"><li>One 1:1 class every week</li><li>Choose Math, English, or Science</li><li>Reschedule by contacting your tutor</li></ul>
+            <ul class="plan-includes"><li>One 1:1 class every week</li><li data-duration-benefit>Extended time for guided practice and questions</li><li>Choose Math, English, or Science</li></ul>
             <button class="button add-plan" type="button" data-add-plan="weekly">Add weekly plan <span aria-hidden="true">&#8594;</span></button>
           </article>
           <article class="plan-card recommended" data-plan="monthly">
-            <div class="plan-card-head"><div><p class="section-kicker">Steady routine</p><h3>Monthly</h3></div><span class="plan-badge recommend">Best balance</span></div>
+            <div class="plan-card-head"><div><p class="section-kicker">Steady routine</p><h3>Monthly</h3></div><span class="plan-badge recommend">Popular plan</span></div>
             <p class="plan-summary">Four weekly sessions billed once each month.</p>
-            <p class="duration-label">Class length</p><div class="duration-options" role="group" aria-label="Monthly class length"><button class="duration-option" type="button" data-duration="30" aria-pressed="false">30 min</button><button class="duration-option" type="button" data-duration="45" aria-pressed="true">45 min<small>Recommended</small></button><button class="duration-option" type="button" data-duration="60" aria-pressed="false">60 min</button></div>
+            <p class="duration-label">Class length</p><div class="duration-options" role="group" aria-label="Monthly class length"><button class="duration-option" type="button" data-duration="30" aria-pressed="false">30 min</button><button class="duration-option" type="button" data-duration="45" aria-pressed="false">45 min</button><button class="duration-option" type="button" data-duration="60" aria-pressed="true">60 min<small>Recommended</small></button></div>
             <div class="price-block"><p class="price" data-price>$180 <small>/ month</small></p><p class="per-session" data-price-detail>4 × 45-minute classes · $45 / class</p></div>
-            <ul class="plan-includes"><li>Four 1:1 classes each month</li><li>Same weekly day when available</li><li>Cancel or change by contacting your tutor</li></ul>
+            <ul class="plan-includes"><li>Four 1:1 classes each month</li><li data-duration-benefit>More time for practice, feedback, and questions</li><li>Same weekly day when available</li></ul>
             <button class="button add-plan" type="button" data-add-plan="monthly">Add monthly plan <span aria-hidden="true">&#8594;</span></button>
           </article>
           <article class="plan-card" data-plan="yearly">
             <div class="plan-card-head"><div><p class="section-kicker">Long-term progress</p><h3>Yearly</h3></div><span class="plan-badge">Save 10%</span></div>
             <p class="plan-summary">48 weekly sessions across 12 months. Paid upfront.</p>
-            <p class="duration-label">Class length</p><div class="duration-options" role="group" aria-label="Yearly class length"><button class="duration-option" type="button" data-duration="30" aria-pressed="false">30 min</button><button class="duration-option" type="button" data-duration="45" aria-pressed="true">45 min<small>Recommended</small></button><button class="duration-option" type="button" data-duration="60" aria-pressed="false">60 min</button></div>
+            <p class="duration-label">Class length</p><div class="duration-options" role="group" aria-label="Yearly class length"><button class="duration-option" type="button" data-duration="30" aria-pressed="false">30 min</button><button class="duration-option" type="button" data-duration="45" aria-pressed="false">45 min</button><button class="duration-option" type="button" data-duration="60" aria-pressed="true">60 min<small>Recommended</small></button></div>
             <div class="price-block"><p class="price" data-price>$1,944 <small>/ year</small></p><p class="per-session" data-price-detail>$162 / month · $40.50 / class</p></div>
-            <ul class="plan-includes"><li>48 1:1 classes over 12 months</li><li>10% lower than 12 monthly payments</li><li>Paid in full; confirm schedule before enrolling</li></ul>
+            <ul class="plan-includes"><li>48 1:1 classes over 12 months</li><li data-duration-benefit>Long sessions allow a full lesson arc and questions</li><li>10% lower than 12 monthly payments · paid upfront</li></ul>
             <button class="button add-plan" type="button" data-add-plan="yearly">Add yearly plan <span aria-hidden="true">&#8594;</span></button>
           </article>
         </div>
-        <p class="plans-footnote">At 45 minutes, Science is the base rate, Math adds $5, and English adds $10 per weekly class. Grade 1 Science starts at $45. 45 minutes is recommended for warm-up, guided practice, and wrap-up. No payment is collected here.</p>
+        <p class="plans-footnote">At 45 minutes, Science is the base rate, Math adds $5, and English adds $10 per weekly class. Grade 1 Science starts at $45 on Zoom. The 60-minute option is recommended for guided practice, feedback, and wrap-up; its premium rate is shown before selection. Library sessions add $20 per 45-minute class. No payment is collected here.</p>
+      </div>
+    </section>
+
+    <section class="specialty-section" id="specialty" aria-labelledby="specialty-title">
+      <div class="wrap">
+        <div class="section-heading"><div><p class="section-kicker">Advanced programs</p><h2 id="specialty-title">Special coaching</h2></div><p>Focused one-time sessions for applications and advanced preparation. Confirm scope, materials, and availability with the tutor before booking.</p></div>
+        <div class="specialty-grid">
+          <article class="specialty-card featured-specialty" data-specialty="moody-ib" data-base-price="225">
+            <p class="section-kicker">Advanced · by request</p><h3>Moody IB Prep</h3>
+            <p>Premium 60-minute preparation. Confirm the student's subject and goals with the tutor before requesting.</p>
+            <p class="price" data-specialty-price>$225 <small>/ 60-min session</small></p><p class="specialty-price-note">Suggested Zoom rate · library rate updates with location choice</p>
+            <button class="button" type="button" data-add-specialty="moody-ib">Request Moody IB prep</button>
+          </article>
+          <article class="specialty-card" data-specialty="application-review" data-base-price="85">
+            <p class="section-kicker">Application support</p><h3>High School Application Review</h3>
+            <p>A focused 60-minute review of one application draft and a parent/student discussion of next steps.</p>
+            <p class="price" data-specialty-price>$85 <small>/ 60-min review</small></p><p class="specialty-price-note">Suggested Zoom rate · confirm application materials in advance</p>
+            <button class="button" type="button" data-add-specialty="application-review">Request application review</button>
+          </article>
+          <article class="specialty-card" data-specialty="maggie-prep" data-base-price="95">
+            <p class="section-kicker">Focused preparation</p><h3>Maggie Prep</h3>
+            <p>A 60-minute preparation session. Confirm the specific Maggie program, materials, and student goals with the tutor.</p>
+            <p class="price" data-specialty-price>$95 <small>/ 60-min session</small></p><p class="specialty-price-note">Suggested Zoom rate · library rate updates with location choice</p>
+            <button class="button" type="button" data-add-specialty="maggie-prep">Request Maggie prep</button>
+          </article>
+        </div>
+        <p class="plans-footnote">All specialty rates are suggested starting prices. In-person library sessions add a location premium; no payment is collected on this site.</p>
       </div>
     </section>
 
@@ -405,16 +486,19 @@
         <div class="deal-copy">
           <p class="section-kicker">Optional parent offer</p>
           <h2 id="deals-title">Take a<br>pit-stop spin.</h2>
-          <p>One free spin can reveal a welcome offer for your first enrollment request. No purchase is needed, and the wheel shows the actual odds.</p>
+          <p>One free spin can reveal a welcome offer for your first enrollment request. No purchase is needed; every prize and its actual odds are listed before you spin.</p>
+          <div class="seasonal-banner" id="seasonal-banner" aria-live="polite"><span class="seasonal-flag" aria-hidden="true">TT</span><div><p id="seasonal-status">Seasonal offer</p><h3 id="seasonal-title">Checking the calendar</h3><p id="seasonal-copy">Offers update automatically by date.</p></div><p class="seasonal-validity" id="seasonal-validity"></p></div>
           <ul class="deal-odds" aria-label="Welcome offer odds">
-            <li><span>5% off your first monthly payment</span><strong>69%</strong></li>
-            <li><span>$10 off your first invoice</span><strong>30%</strong></li>
-            <li><span>Free 15-minute Zoom intro</span><strong>1%</strong></li>
+            <li><span>5% off your first monthly payment</span><strong>45%</strong></li>
+            <li><span>$10 off your first invoice</span><strong>25%</strong></li>
+            <li><span>$5 off your first invoice</span><strong>20%</strong></li>
+            <li><span>Priority scheduling request</span><strong>8%</strong></li>
+            <li><span>Free 15-minute Zoom introduction</span><strong>2%</strong></li>
           </ul>
-          <p class="deal-terms">One spin per browser every 30 days. Parent/guardian only, age 18+. Offers expire 30 days after reveal, cannot be combined, and have no cash value. The Zoom intro is subject to tutor availability. This optional offer does not require a purchase.</p>
+          <p class="deal-terms">One spin per browser every 30 days. Parent/guardian only, age 18+. Wheel cash discounts and seasonal cash discounts do not stack; the best eligible cash discount applies. Priority scheduling and the Zoom introduction are non-cash prizes. Wheel offers expire 30 days after reveal. The Zoom intro is subject to tutor availability. No purchase is needed.</p>
         </div>
         <div class="wheel-panel">
-          <div class="wheel-frame"><span class="wheel-pointer" aria-hidden="true"></span><canvas id="deal-wheel" width="360" height="360" role="img" aria-label="Prize wheel: 69 percent chance of 5 percent off, 30 percent chance of ten dollars off, and 1 percent chance of a 15-minute Zoom introduction"></canvas><span class="wheel-center" aria-hidden="true">TT</span></div>
+          <div class="wheel-frame"><span class="wheel-pointer" aria-hidden="true"></span><canvas id="deal-wheel" width="360" height="360" role="img" aria-label="Five-prize tire wheel. Published odds: 45 percent five percent off, 25 percent ten dollars off, 20 percent five dollars off, 8 percent priority scheduling, and 2 percent free 15-minute Zoom introduction"></canvas><span class="wheel-center" aria-hidden="true">TT</span></div>
           <button class="button deal-spin" id="spin-deal" type="button">Spin for a welcome offer</button>
           <p class="deal-result" id="deal-result" aria-live="polite">No purchase necessary · parent/guardian only</p>
         </div>
@@ -442,6 +526,29 @@
       </div>
     </section>
 
+    <section class="merch-section" id="merch" aria-labelledby="merch-title">
+      <div class="wrap">
+        <div class="section-heading"><div><p class="section-kicker">TurboTutor paddock</p><h2 id="merch-title">Team gear</h2></div><p>We’re drawing up the first collection. No products or orders are available yet.</p></div>
+        <div class="merch-grid">
+          <article class="merch-item"><span class="build-label">Construction in progress</span><div class="merch-art" aria-hidden="true">TT / 01</div><div><h3>Pit Crew Tee</h3><p>Concept · not for sale</p></div></article>
+          <article class="merch-item"><span class="build-label">Construction in progress</span><div class="merch-art" aria-hidden="true">LAP<br>BOOK</div><div><h3>Lap Book</h3><p>Concept · not for sale</p></div></article>
+          <article class="merch-item"><span class="build-label">Construction in progress</span><div class="merch-art" aria-hidden="true">FAST<br>FORWARD</div><div><h3>Track Sticker Set</h3><p>Concept · not for sale</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="policy-section" id="policies" aria-labelledby="policies-title">
+      <div class="wrap">
+        <div class="section-heading"><div><p class="section-kicker">Clear before the green flag</p><h2 id="policies-title">Attendance &amp; support</h2></div><p>These are the proposed service terms. Review them before requesting a session; fees are not charged by this website.</p></div>
+        <div class="policy-grid">
+          <article class="policy-item"><strong>$25</strong><h3>Missed class</h3><p>A $25 fee applies when a student misses a scheduled class.</p></article>
+          <article class="policy-item"><strong>$15</strong><h3>Family reschedule</h3><p>A $15 rescheduling fee applies when the family requests a change to a confirmed class.</p></article>
+          <article class="policy-item"><strong>15% off</strong><h3>Tutor reschedule</h3><p>If the tutor needs to reschedule, they confirm a 15% credit for the student's next purchase request.</p></article>
+        </div>
+        <p class="policy-note">Contact the tutor promptly if plans change. For in-person meetings, a parent or guardian must remain present with students under 18. The tutor confirms any reschedule credit for the next request; fees are arranged directly and this site does not collect payment.</p>
+      </div>
+    </section>
+
     <section class="contact-section" id="contact" aria-labelledby="contact-title">
       <div class="wrap">
         <div class="section-heading"><div><p class="section-kicker">Talk to the tutor</p><h2 id="contact-title">Questions?<br>Get in touch.</h2></div><p>Reach out directly about subjects, schedules, pricing, or how to pay by cash or Zelle.</p></div>
@@ -452,14 +559,17 @@
     <section class="faq-section" id="faq" aria-labelledby="faq-title">
       <div class="wrap">
         <div class="section-heading"><div><p class="section-kicker">Quick answers</p><h2 id="faq-title">Before the start</h2></div></div>
-        <label class="visually-hidden" for="faq-search">Search frequently asked questions</label><input class="faq-search" id="faq-search" type="search" placeholder="Search topics, plans, or payment" autocomplete="off"><p class="faq-results" id="faq-results" aria-live="polite">6 answers</p>
+        <label class="visually-hidden" for="faq-search">Search frequently asked questions</label><input class="faq-search" id="faq-search" type="search" placeholder="Search topics, plans, or payment" autocomplete="off"><p class="faq-results" id="faq-results" aria-live="polite">9 answers</p>
         <div class="faq-list">
           <details><summary>What subjects can my student choose?</summary><p>Choose Science, English, or Math for any grade from 1 through 8. You can add more than one course to a single request.</p></details>
-          <details><summary>What does each plan include?</summary><p>The weekly plan includes one class per week, the monthly plan includes four, and the yearly plan includes 48 across 12 months. Choose a 30-, 45-, or 60-minute class for every plan. Yearly enrollment is paid upfront and includes 10% savings versus 12 monthly payments.</p></details>
-          <details><summary>How is pricing calculated?</summary><p>Rates vary by grade and class length. Monthly plans include four weekly classes. Yearly plans include 48 classes and are priced 10% below 12 monthly payments. The tutor confirms schedule availability before enrollment.</p></details>
+          <details><summary>What does each plan include?</summary><p>The weekly plan includes one class per week, the monthly plan includes four, and the yearly plan includes 48 across 12 months. Choose a 30-, 45-, or 60-minute class for every plan. The 60-minute option includes extra time for guided practice and feedback.</p></details>
+          <details><summary>How are prices set?</summary><p>Rates rise by grade. At 45 minutes on Zoom, Science is the base rate, Math adds $5, and English adds $10 per weekly class. In-person library sessions add $20 per 45-minute class. The 60-minute option has a premium rate shown before you add it.</p></details>
+          <details><summary>How do online and library sessions work?</summary><p>Online sessions meet on Zoom. In-person sessions meet at a mutually agreed public library and cost more than Zoom. A parent or guardian must remain present for students under 18. Confirm availability before enrollment.</p></details>
+          <details><summary>What are the specialty programs?</summary><p>Moody IB prep, high school application review, and Maggie prep are separate one-time programs. Their listed rates are suggested; contact the tutor to confirm the exact scope, materials, and appointment availability.</p></details>
+          <details><summary>How do seasonal offers update?</summary><p>The page checks the calendar and rotates its offer automatically for New Year, back-to-school, Diwali season (Oct 1-Nov 10), Thanksgiving week, and Christmas. Only one cash discount applies per request: the best eligible seasonal or wheel discount.</p></details>
+          <details><summary>What if someone misses or reschedules a class?</summary><p>A missed scheduled class has a $25 fee. A family-requested reschedule has a $15 fee. If the tutor must reschedule, they confirm a 15% credit for the student's next purchase request. These terms are shown before enrollment; the website does not charge fees or payments.</p></details>
           <details><summary>How do I request enrollment?</summary><p>Add courses, enter your contact details and payment preference, then choose an email or text draft. Your email or messaging app opens with the request filled in. Review it and press Send to contact the tutor. No charge is made by this site.</p></details>
           <details><summary>Can I pay by cash or Zelle?</summary><p>Select cash or Zelle in the request form. No payment is collected on this website; confirm payment instructions directly with the tutor.</p></details>
-          <details><summary>How does the welcome wheel work?</summary><p>The optional parent/guardian spin is free and limited to one spin per browser every 30 days. The odds are 69% for 5% off the first monthly payment, 30% for $10 off the first invoice, and 1% for a 15-minute Zoom introduction. Offers expire 30 days after reveal and cannot be combined.</p></details>
         </div>
       </div>
     </section>
@@ -484,6 +594,7 @@
         <div class="form-field"><label for="contact-email">Your email</label><input id="contact-email" name="email" type="email" autocomplete="email" maxlength="120" required></div>
         <div class="form-field"><label for="contact-phone">Your phone</label><input id="contact-phone" name="phone" type="tel" autocomplete="tel" maxlength="30" required></div>
         <div class="form-field full"><span class="payment-title">Preferred payment</span><div class="payment-options"><label class="payment-option"><input type="radio" name="payment" value="Cash" required> Cash</label><label class="payment-option"><input type="radio" name="payment" value="Zelle" required> Zelle</label></div></div>
+        <label class="policy-ack"><input type="checkbox" name="policiesAccepted" value="Yes" required><span>I have read the <a href="#policies">attendance and rescheduling policies</a>.</span></label>
       </div>
       <p class="form-note">No payment is collected here. Your request will open as a draft; review it and press Send in your email or messaging app.</p>
       <p class="form-note" id="request-deal"></p>
@@ -500,13 +611,16 @@
     const tutorPhone = "+18048473236";
     const gradeBaseRates = { 1: 45, 2: 49, 3: 53, 4: 57, 5: 61, 6: 65, 7: 69, 8: 73 };
     const subjectPremiums = { Science: 0, Math: 5, English: 10 };
-    const durationMultipliers = { 30: 0.75, 45: 1, 60: 1.35 };
+    const deliveryPremiums = { zoom: 0, library: 20 };
+    const deliveryNames = { zoom: "Online via Zoom", library: "In person at a public library" };
+    const specialtyLibraryPremium = Math.round(deliveryPremiums.library * 60 / 45);
+    const durationMultipliers = { 30: 0.72, 45: 1, 60: 1.7 };
     const termDetails = {
       weekly: { name: "Weekly", sessions: 1, discount: 0 },
       monthly: { name: "Monthly", sessions: 4, discount: 0 },
       yearly: { name: "Yearly", sessions: 48, discount: 0.10 }
     };
-    const selectedDurations = { weekly: 45, monthly: 45, yearly: 45 };
+    const selectedDurations = { weekly: 60, monthly: 60, yearly: 60 };
     const selectedCourses = [];
     const selectionList = document.getElementById("cart-items");
     const requestDialog = document.getElementById("request-dialog");
@@ -516,12 +630,14 @@
     const dealCanvas = document.getElementById("deal-wheel");
     const dealStorageKey = "turbotutor-welcome-offer-v1";
     const deals = [
-      { id: "five-percent", weight: 69, label: "5% off your first monthly payment", short: "5% OFF", term: "first monthly payment" },
-      { id: "ten-dollars", weight: 30, label: "$10 off your first invoice", short: "$10 OFF", term: "first invoice" },
-      { id: "zoom-intro", weight: 1, label: "Free 15-minute Zoom introduction", short: "ZOOM", term: "15-minute intro" }
+      { id: "five-percent", weight: 45, label: "5% off your first monthly payment", short: "5% OFF", term: "first monthly payment" },
+      { id: "ten-dollars", weight: 25, label: "$10 off your first invoice", short: "$10 OFF", term: "first invoice" },
+      { id: "five-dollars", weight: 20, label: "$5 off your first invoice", short: "$5 OFF", term: "first invoice" },
+      { id: "priority-scheduling", weight: 8, label: "Priority scheduling request", short: "PRIORITY", term: "scheduling request" },
+      { id: "zoom-intro", weight: 2, label: "Free 15-minute Zoom introduction", short: "ZOOM", term: "15-minute intro" }
     ];
     const dealValidityMs = 30 * 24 * 60 * 60 * 1000;
-    const picker = { grade: 1, subject: "Science" };
+    const picker = { grade: 1, subject: "Science", delivery: "zoom" };
     let selectedDeal = loadSavedDeal();
     let toastTimer;
 
@@ -536,13 +652,13 @@
       toastTimer = window.setTimeout(() => toast.classList.remove("show"), 2600);
     }
 
-    function getWeeklyRate(grade, duration, subject = picker.subject) {
-      return Math.round((gradeBaseRates[grade] + subjectPremiums[subject]) * durationMultipliers[duration]);
+    function getWeeklyRate(grade, duration, subject = picker.subject, delivery = picker.delivery) {
+      return Math.round((gradeBaseRates[grade] + subjectPremiums[subject] + deliveryPremiums[delivery]) * durationMultipliers[duration]);
     }
 
-    function getPlan(term, duration, grade = picker.grade, subject = picker.subject) {
+    function getPlan(term, duration, grade = picker.grade, subject = picker.subject, delivery = picker.delivery) {
       const details = termDetails[term];
-      const weeklyRate = getWeeklyRate(grade, duration, subject);
+      const weeklyRate = getWeeklyRate(grade, duration, subject, delivery);
       const regularAnnual = weeklyRate * 48;
       const amount = term === "weekly" ? weeklyRate
         : term === "monthly" ? weeklyRate * 4
@@ -551,6 +667,7 @@
       return {
         grade,
         subject,
+        delivery,
         term,
         termName: details.name,
         duration,
@@ -560,7 +677,7 @@
         period: term === "weekly" ? "week" : term === "monthly" ? "month" : "year",
         perClass: amount / classCount,
         regularAnnual,
-        key: `${grade}-${subject}-${term}-${duration}`
+        key: `${grade}-${subject}-${delivery}-${term}-${duration}`
       };
     }
 
@@ -595,26 +712,70 @@
     }
 
     function renderPlanCards() {
-      document.getElementById("grade-caption").textContent = `Grade ${picker.grade} · $${gradeBaseRates[picker.grade]} science base / 45 min weekly`;
+      document.getElementById("grade-caption").textContent = `Grade ${picker.grade} · from ${money(getWeeklyRate(picker.grade, 45))} / 45 min weekly`;
       document.getElementById("subject-caption").textContent = `${picker.subject} · ${picker.subject === "Science" ? "base rate" : `+$${subjectPremiums[picker.subject]} / weekly class`}`;
+      document.getElementById("delivery-caption").textContent = picker.delivery === "zoom" ? "Zoom · included" : "Public library · +$20 / 45 min";
+      document.getElementById("delivery-summary").textContent = picker.delivery === "zoom"
+        ? "Online sessions use Zoom. The tutor confirms the meeting link after enrollment."
+        : "Meet at a mutually agreed public library. A parent or guardian must remain present for students under 18.";
       document.querySelectorAll("[data-plan]").forEach(card => {
         const term = card.dataset.plan;
         const duration = selectedDurations[term];
         const plan = getPlan(term, duration);
         card.querySelector("[data-price]").innerHTML = `${money(plan.amount)} <small>/ ${plan.period}</small>`;
         const durationText = `${duration}-minute`;
-        let detail = `1 × ${durationText} class each week · ${money(plan.weeklyRate)} / class`;
-        if (term === "monthly") detail = `4 × ${durationText} classes · ${money(plan.weeklyRate)} / class`;
+        let detail = `1 × ${durationText} class each week · ${money(plan.weeklyRate)} / class · ${deliveryNames[plan.delivery]}`;
+        if (term === "monthly") detail = `4 × ${durationText} classes · ${money(plan.weeklyRate)} / class · ${deliveryNames[plan.delivery]}`;
         if (term === "yearly") {
           const monthlyEquivalent = plan.amount / 12;
-          detail = `${money(monthlyEquivalent)} / month equivalent · ${money(plan.perClass)} / class · save ${money(plan.regularAnnual - plan.amount)}`;
+          detail = `${money(monthlyEquivalent)} / month equivalent · ${money(plan.perClass)} / class · save ${money(plan.regularAnnual - plan.amount)} · ${deliveryNames[plan.delivery]}`;
         }
         card.querySelector("[data-price-detail]").textContent = detail;
+        const durationBenefit = card.querySelector("[data-duration-benefit]");
+        durationBenefit.textContent = duration === 60
+          ? "Extra time for guided practice, feedback, and questions"
+          : duration === 45 ? "Balanced time for a lesson and guided practice" : "Short, focused practice on one learning goal";
         card.querySelectorAll("[data-duration]").forEach(button => button.setAttribute("aria-pressed", String(Number(button.dataset.duration) === duration)));
         const addButton = card.querySelector("[data-add-plan]");
-        addButton.setAttribute("aria-label", `Add Grade ${picker.grade} ${picker.subject} ${termDetails[term].name.toLowerCase()} plan, ${duration} minutes, ${money(plan.amount)} per ${plan.period}`);
+        addButton.setAttribute("aria-label", `Add Grade ${picker.grade} ${picker.subject} ${termDetails[term].name.toLowerCase()} plan, ${duration} minutes, ${deliveryNames[picker.delivery]}, ${money(plan.amount)} per ${plan.period}`);
       });
       document.getElementById("lap-line").style.setProperty("--progress", picker.subject === "Science" ? "40%" : "70%");
+    }
+
+    function renderSpecialtyCards() {
+      document.querySelectorAll("[data-specialty]").forEach(card => {
+        const basePrice = Number(card.dataset.basePrice);
+        const locationPremium = picker.delivery === "library" ? specialtyLibraryPremium : 0;
+        const amount = basePrice + locationPremium;
+        card.querySelector("[data-specialty-price]").innerHTML = `${money(amount)} <small>/ 60-min ${picker.delivery === "zoom" ? "Zoom session" : "library session"}</small>`;
+        card.querySelector(".specialty-price-note").textContent = picker.delivery === "zoom"
+          ? "Suggested Zoom rate · 60 minutes"
+          : `Suggested library rate · includes ${money(locationPremium)} in-person premium`;
+        card.querySelector("[data-add-specialty]").setAttribute("aria-label", `Request ${card.querySelector("h3").textContent}, 60-minute ${picker.delivery === "zoom" ? "Zoom" : "library"} session, ${money(amount)}`);
+      });
+    }
+
+    function addSpecialtyPlan(id) {
+      const card = document.querySelector(`[data-specialty="${id}"]`);
+      const amount = Number(card.dataset.basePrice) + (picker.delivery === "library" ? specialtyLibraryPremium : 0);
+      const plan = {
+        name: card.querySelector("h3").textContent,
+        term: "specialty",
+        termName: "One-time",
+        duration: 60,
+        classCount: 1,
+        amount,
+        period: "session",
+        delivery: picker.delivery,
+        key: `${id}-${picker.delivery}`
+      };
+      if (selectedCourses.some(item => item.key === plan.key)) {
+        showToast("That specialty session is already in your request.");
+        return;
+      }
+      selectedCourses.push(plan);
+      updateCart();
+      showToast(`${plan.name} added to your request.`);
     }
 
     function updateCart() {
@@ -624,29 +785,41 @@
       if (!selectedCourses.length) {
         selectionList.innerHTML = '<p class="cart-empty">Your request is empty. Choose a grade, subject, duration, and plan to add a course.</p>';
       } else {
-        selectionList.innerHTML = selectedCourses.map((plan, index) => `<div class="selection-item"><strong>Grade ${plan.grade} ${plan.subject}</strong><span>${plan.termName} · ${plan.duration} minutes · ${plan.classCount} classes per ${plan.term === "weekly" ? "week" : plan.term === "monthly" ? "month" : "year"}</span><span>${money(plan.amount)} / ${plan.period}</span><button class="remove-button" type="button" data-remove="${index}" aria-label="Remove Grade ${plan.grade} ${plan.subject} ${plan.termName} plan">Remove</button></div>`).join("");
+        selectionList.innerHTML = selectedCourses.map((plan, index) => `<div class="selection-item"><strong>${plan.grade ? `Grade ${plan.grade} ${plan.subject}` : plan.name}</strong><span>${plan.term === "specialty" ? "One-time session" : plan.termName} · ${plan.duration} minutes · ${plan.term === "specialty" ? "one appointment" : `${plan.classCount} classes per ${plan.term === "weekly" ? "week" : plan.term === "monthly" ? "month" : "year"}`} · ${deliveryNames[plan.delivery]}</span><span>${money(plan.amount)} / ${plan.period}</span><button class="remove-button" type="button" data-remove="${index}" aria-label="Remove ${plan.grade ? `Grade ${plan.grade} ${plan.subject}` : plan.name} ${plan.termName} plan">Remove</button></div>`).join("");
         selectionList.querySelectorAll("[data-remove]").forEach(button => button.addEventListener("click", () => {
           selectedCourses.splice(Number(button.dataset.remove), 1);
           updateCart();
         }));
       }
       const firstPayment = selectedCourses.reduce((sum, plan) => sum + plan.amount, 0);
-      const discount = getDealDiscount(firstPayment);
+      const discountDetails = getDiscountDetails(firstPayment);
+      const discount = discountDetails.amount;
       document.getElementById("cart-total").textContent = money(Math.max(0, firstPayment - discount));
       document.getElementById("cart-savings").textContent = selectedCourses.length
-        ? `${selectedCourses.length} plan${selectedCourses.length === 1 ? "" : "s"} · billing period varies by plan${discount ? ` · welcome offer saves ${money(discount)}` : ""}`
+        ? `${selectedCourses.length} selection${selectedCourses.length === 1 ? "" : "s"} · one best eligible offer applies${discount ? ` · ${discountDetails.label} saves ${money(discount)}` : ""}`
         : "0 plans selected. Billing period depends on the plan.";
     }
 
-    function getDealDiscount(invoiceTotal) {
-      const deal = getActiveDeal();
-      if (!deal) return 0;
-      if (deal.id === "ten-dollars") return Math.min(10, invoiceTotal);
-      if (deal.id === "five-percent") {
-        const firstMonthlyPlan = selectedCourses.find(plan => plan.term === "monthly");
-        return firstMonthlyPlan ? Math.round(firstMonthlyPlan.amount * 0.05 * 100) / 100 : 0;
+    function getDiscountDetails(invoiceTotal) {
+      const candidates = [];
+      const firstMonthlyPlan = selectedCourses.find(plan => plan.term === "monthly");
+      const seasonal = getCurrentSeasonalOffer();
+      if (seasonal) {
+        const monthlySavings = firstMonthlyPlan && seasonal.monthlyPercent
+          ? Math.round(firstMonthlyPlan.amount * seasonal.monthlyPercent * 100) / 100
+          : 0;
+        const invoiceSavings = seasonal.invoiceDiscount || 0;
+        if (monthlySavings || invoiceSavings) candidates.push({ label: seasonal.title, amount: Math.min(invoiceTotal, Math.max(monthlySavings, invoiceSavings)) });
       }
-      return 0;
+      const deal = getActiveDeal();
+      if (deal?.id === "ten-dollars") candidates.push({ label: deal.label, amount: Math.min(10, invoiceTotal) });
+      if (deal?.id === "five-dollars") candidates.push({ label: deal.label, amount: Math.min(5, invoiceTotal) });
+      if (deal?.id === "five-percent" && firstMonthlyPlan) candidates.push({ label: deal.label, amount: Math.round(firstMonthlyPlan.amount * 0.05 * 100) / 100 });
+      return candidates.sort((first, second) => second.amount - first.amount)[0] || { label: "", amount: 0 };
+    }
+
+    function getDealDiscount(invoiceTotal) {
+      return getDiscountDetails(invoiceTotal).amount;
     }
 
     function getActiveDeal() {
@@ -667,7 +840,7 @@
       const context = dealCanvas.getContext("2d");
       const center = dealCanvas.width / 2;
       const radius = center - 4;
-      const colors = ["#d94232", "#e4b83b", "#2f7668"];
+      const colors = ["#b7352b", "#f2c54b", "#2f7668", "#49616b", "#d8dfd8"];
       let angle = -Math.PI / 2;
       deals.forEach((deal, index) => {
         const endAngle = angle + Math.PI * 2 * deal.weight / 100;
@@ -717,6 +890,47 @@
         && Number.isFinite(deal.wonAt) && Date.now() - deal.wonAt < dealValidityMs);
     }
 
+    function getThanksgivingDate(year) {
+      const firstDay = new Date(year, 10, 1);
+      const firstThursday = 1 + ((4 - firstDay.getDay() + 7) % 7);
+      return new Date(year, 10, firstThursday + 21, 23, 59, 59);
+    }
+
+    function getSeasonSchedule(year) {
+      const thanksgiving = getThanksgivingDate(year);
+      return [
+        { id: "new-year", title: "New Year Warm-Up", start: new Date(year, 0, 1), end: new Date(year, 0, 7, 23, 59, 59), copy: "10% off the first monthly payment", monthlyPercent: 0.10 },
+        { id: "back-to-school", title: "Back-to-School Pit Stop", start: new Date(year, 7, 1), end: new Date(year, 7, 31, 23, 59, 59), copy: "5% off the first monthly payment", monthlyPercent: 0.05 },
+        { id: "diwali", title: "Diwali Pit-Lane Special", start: new Date(year, 9, 1), end: new Date(year, 10, 10, 23, 59, 59), copy: "10% off the first monthly payment · Oct 1-Nov 10", monthlyPercent: 0.10 },
+        { id: "thanksgiving", title: "Thanksgiving Grid Deal", start: new Date(thanksgiving.getTime() - 7 * 86400000), end: thanksgiving, copy: "$12 off the first invoice", invoiceDiscount: 12 },
+        { id: "christmas", title: "Christmas Finish-Line Offer", start: new Date(year, 11, 1), end: new Date(year, 11, 25, 23, 59, 59), copy: "15% off the first monthly payment", monthlyPercent: 0.15 }
+      ];
+    }
+
+    function getCurrentSeasonalOffer(now = new Date()) {
+      return getSeasonSchedule(now.getFullYear()).find(offer => now >= offer.start && now <= offer.end) || null;
+    }
+
+    function getNextSeasonalOffer(now = new Date()) {
+      return [now.getFullYear(), now.getFullYear() + 1]
+        .flatMap(year => getSeasonSchedule(year))
+        .filter(offer => offer.start > now)
+        .sort((first, second) => first.start - second.start)[0];
+    }
+
+    function renderSeasonalOffer() {
+      const active = getCurrentSeasonalOffer();
+      const offer = active || getNextSeasonalOffer();
+      if (!offer) return;
+      document.getElementById("seasonal-status").textContent = active ? "Available now" : "Upcoming seasonal offer";
+      document.getElementById("seasonal-title").textContent = offer.title;
+      document.getElementById("seasonal-copy").textContent = offer.copy;
+      document.getElementById("seasonal-validity").textContent = active
+        ? `Ends ${offer.end.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
+        : `Starts ${offer.start.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+      document.getElementById("seasonal-banner").dataset.offerId = active ? offer.id : "upcoming";
+    }
+
     function showSavedDeal(deal) {
       const result = document.getElementById("deal-result");
       const expiry = new Date(deal.wonAt + dealValidityMs).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
@@ -729,7 +943,12 @@
 
     function spinForDeal() {
       const randomValue = crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296;
-      const deal = randomValue < 0.69 ? deals[0] : randomValue < 0.99 ? deals[1] : deals[2];
+      const roll = randomValue * 100;
+      let cumulativeWeight = 0;
+      const deal = deals.find(prize => {
+        cumulativeWeight += prize.weight;
+        return roll < cumulativeWeight;
+      }) || deals[deals.length - 1];
       const priorWeight = deals.slice(0, deals.indexOf(deal)).reduce((sum, prize) => sum + prize.weight, 0);
       const prizeMidpoint = priorWeight + deal.weight / 2;
       const target = (360 - prizeMidpoint * 3.6 + 360) % 360;
@@ -754,6 +973,12 @@
       picker.subject = value;
       renderPlanCards();
     });
+    connectTabList("delivery-tabs", "[data-delivery]", "delivery", value => {
+      picker.delivery = value;
+      renderPlanCards();
+      renderSpecialtyCards();
+    });
+    document.querySelectorAll("[data-add-specialty]").forEach(button => button.addEventListener("click", () => addSpecialtyPlan(button.dataset.addSpecialty)));
     document.querySelectorAll("[data-plan]").forEach(card => {
       card.querySelectorAll("[data-duration]").forEach(button => button.addEventListener("click", () => {
         selectedDurations[card.dataset.plan] = Number(button.dataset.duration);
@@ -802,12 +1027,16 @@
     requestForm.addEventListener("submit", event => {
       event.preventDefault();
       const formData = new FormData(requestForm);
-      const courses = selectedCourses.map(plan => `- Grade ${plan.grade} ${plan.subject}: ${plan.termName}, ${plan.duration} minutes, ${plan.classCount} classes, ${money(plan.amount)} per ${plan.period}`).join("\n");
-      const dealExpiry = selectedDeal ? new Date(selectedDeal.wonAt + dealValidityMs).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "";
+      const courses = selectedCourses.map(plan => `- ${plan.grade ? `Grade ${plan.grade} ${plan.subject}` : plan.name}: ${plan.term === "specialty" ? "one-time" : plan.termName}, ${plan.duration} minutes, ${plan.term === "specialty" ? "one appointment" : `${plan.classCount} classes per ${plan.term === "weekly" ? "week" : plan.term === "monthly" ? "month" : "year"}`}, ${deliveryNames[plan.delivery]}, ${money(plan.amount)} per ${plan.period}`).join("\n");
       const activeDeal = getActiveDeal();
       const activeDealExpiry = activeDeal ? new Date(activeDeal.wonAt + dealValidityMs).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "";
-      const dealText = activeDeal ? `Welcome offer: ${activeDeal.label}. Expires ${activeDealExpiry}.` : "No active welcome offer selected.";
-      const discount = getDealDiscount(selectedCourses.reduce((sum, plan) => sum + plan.amount, 0));
+      const seasonalOffer = getCurrentSeasonalOffer();
+      const discountDetails = getDiscountDetails(selectedCourses.reduce((sum, plan) => sum + plan.amount, 0));
+      const dealText = [
+        activeDeal ? `Wheel prize: ${activeDeal.label}. Expires ${activeDealExpiry}.` : "No active wheel prize.",
+        seasonalOffer ? `Seasonal offer available: ${seasonalOffer.title} (${seasonalOffer.copy}).` : "",
+        discountDetails.amount ? `Applied discount: ${discountDetails.label}, saving ${money(discountDetails.amount)}. Cash discounts do not stack.` : ""
+      ].filter(Boolean).join("\n");
       const message = [
         "TurboTutor tutoring request",
         "",
@@ -816,12 +1045,13 @@
         `Email: ${formData.get("email")}`,
         `Phone: ${formData.get("phone")}`,
         `Preferred payment: ${formData.get("payment")}`,
+        "Attendance and rescheduling policies acknowledged.",
         "",
         "Plans requested:",
         courses,
         "",
         dealText,
-        discount ? `Estimated welcome discount: ${money(discount)}.` : "",
+        discountDetails.amount ? `Estimated discount: ${money(discountDetails.amount)}.` : "",
         `Estimated first payment: ${document.getElementById("cart-total").textContent}`
       ].filter(Boolean).join("\n");
       const subject = encodeURIComponent("TurboTutor tutoring request");
@@ -834,6 +1064,14 @@
     document.getElementById("spin-deal").addEventListener("click", spinForDeal);
     drawDealWheel();
     if (selectedDeal) showSavedDeal(selectedDeal);
+    renderSeasonalOffer();
+    renderSpecialtyCards();
+    function refreshOfferState() {
+      renderSeasonalOffer();
+      updateCart();
+    }
+    window.setInterval(refreshOfferState, 60 * 60 * 1000);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshOfferState(); });
     try {
       if (localStorage.getItem("turbotutor-theme") === "dark") document.documentElement.dataset.theme = "dark";
     } catch { }
@@ -895,136 +1133,6 @@
 
     renderPlanCards();
     updateCart();
-  </script>
-  <script type="module">
-    import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
-
-    const canvas = document.getElementById("hero-canvas");
-    const hero = document.querySelector(".hero");
-    try {
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "low-power" });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
-      renderer.shadowMap.enabled = false;
-      scene.add(new THREE.HemisphereLight("#dbe8e2", "#18211e", 2.2));
-      const keyLight = new THREE.DirectionalLight("#fff0cc", 3.5);
-      keyLight.position.set(-6, 12, 8);
-      scene.add(keyLight);
-      const redPaint = new THREE.MeshStandardMaterial({ color: "#d9362b", roughness: 0.32, metalness: 0.18 });
-      const carbon = new THREE.MeshStandardMaterial({ color: "#202827", roughness: 0.72 });
-      const tire = new THREE.MeshStandardMaterial({ color: "#111515", roughness: 0.9 });
-      const whitePaint = new THREE.MeshStandardMaterial({ color: "#f2eee2", roughness: 0.45 });
-
-      function part(width, height, depth, material, x, y, z, parent, rotationY = 0) {
-        const mesh = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), material);
-        mesh.position.set(x, y, z);
-        mesh.rotation.y = rotationY;
-        parent.add(mesh);
-        return mesh;
-      }
-
-      const ground = new THREE.Mesh(new THREE.PlaneGeometry(90, 90), new THREE.MeshStandardMaterial({ color: "#283a33", roughness: 1 }));
-      ground.rotation.x = -Math.PI / 2;
-      ground.position.y = -0.12;
-      scene.add(ground);
-      const trackShape = new THREE.Shape();
-      trackShape.absellipse(0, 0, 12, 7, 0, Math.PI * 2, false, 0);
-      const infield = new THREE.Path();
-      infield.absellipse(0, 0, 8.6, 3.6, 0, Math.PI * 2, true, 0);
-      trackShape.holes.push(infield);
-      const track = new THREE.Mesh(new THREE.ExtrudeGeometry(trackShape, { depth: 0.12, bevelEnabled: false, curveSegments: 80 }), carbon);
-      track.rotation.x = -Math.PI / 2;
-      track.position.y = 0.02;
-      scene.add(track);
-
-      for (let dash = 0; dash < 64; dash += 1) {
-        const angle = dash / 64 * Math.PI * 2;
-        const x = 10.25 * Math.cos(angle);
-        const z = 5.3 * Math.sin(angle);
-        const curb = part(0.72, 0.035, 0.17, dash % 2 ? redPaint : whitePaint, x, 0.17, z, scene, -angle);
-        curb.material = curb.material.clone();
-        curb.material.color.set(dash % 2 ? "#cf4034" : "#e7e4da");
-      }
-      for (let mark = -8; mark <= 8; mark += 1) {
-        for (let row = 0; row < 2; row += 1) {
-          const color = (mark + row) % 2 === 0 ? whitePaint : carbon;
-          part(0.65, 0.035, 0.34, color, mark * 0.38, 0.17, -6.65 + row * 0.36, scene);
-        }
-      }
-
-      const raceCar = new THREE.Group();
-      scene.add(raceCar);
-      part(1.05, 0.27, 2.4, redPaint, 0, 0.48, 0, raceCar);
-      part(1.35, 0.12, 0.42, carbon, 0, 0.34, -1.32, raceCar);
-      part(1.52, 0.12, 0.35, carbon, 0, 0.42, 1.18, raceCar);
-      part(0.2, 0.28, 0.82, redPaint, 0, 0.7, -0.68, raceCar);
-      part(0.64, 0.4, 0.72, carbon, 0, 0.76, 0.3, raceCar);
-      part(0.38, 0.1, 0.11, whitePaint, 0, 0.61, -1.12, raceCar);
-      for (const side of [-1, 1]) {
-        for (const axle of [-1, 1]) {
-          const wheel = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.2, 20), tire);
-          wheel.rotation.z = Math.PI / 2;
-          wheel.position.set(side * 0.69, 0.34, axle * 0.76);
-          raceCar.add(wheel);
-          const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.205, 16), whitePaint);
-          hub.rotation.z = Math.PI / 2;
-          hub.position.copy(wheel.position);
-          raceCar.add(hub);
-        }
-      }
-
-      const grandstand = new THREE.Group();
-      for (let row = 0; row < 4; row += 1) {
-        part(0.38, 0.12, 8.2, row % 2 ? whitePaint : redPaint, -12.9 - row * 0.25, 0.34 + row * 0.18, 0, grandstand);
-      }
-      scene.add(grandstand);
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const pointerTarget = { x: 0, y: 0 };
-      let isVisible = true;
-      hero.addEventListener("pointermove", event => {
-        const bounds = hero.getBoundingClientRect();
-        pointerTarget.x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 1.2;
-        pointerTarget.y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 0.4;
-      });
-
-      function resizeScene() {
-        const bounds = hero.getBoundingClientRect();
-        const renderScale = Math.min(1, 1440 / Math.max(bounds.width, bounds.height));
-        renderer.setSize(Math.round(bounds.width * renderScale), Math.round(bounds.height * renderScale), false);
-        camera.aspect = bounds.width / bounds.height;
-        camera.fov = bounds.width < 700 ? 43 : 36;
-        const distance = bounds.width < 700 ? 31 : 22;
-        camera.position.set(0, distance * 0.72, distance);
-        camera.lookAt(0, 0, 0);
-        camera.updateProjectionMatrix();
-      }
-      new ResizeObserver(resizeScene).observe(hero);
-      new IntersectionObserver(entries => { isVisible = entries[0].isIntersecting; }).observe(hero);
-      resizeScene();
-
-      function render(time) {
-        if (isVisible && !document.hidden) {
-          const seconds = time * 0.001;
-          const angle = seconds * 0.23;
-          const radiusX = 10.05;
-          const radiusZ = 5.15;
-          raceCar.position.set(radiusX * Math.cos(angle), 0.08 + Math.abs(Math.sin(seconds * 3)) * 0.025, radiusZ * Math.sin(angle));
-          raceCar.rotation.y = Math.atan2(radiusX * Math.sin(angle), -radiusZ * Math.cos(angle));
-          camera.position.x += (pointerTarget.x - camera.position.x) * 0.012;
-          camera.position.y += (pointerTarget.y + (window.innerWidth < 700 ? 22.3 : 15.8) - camera.position.y) * 0.01;
-          camera.lookAt(0, 0, 0);
-          renderer.render(scene, camera);
-        }
-        if (!prefersReducedMotion) window.requestAnimationFrame(render);
-      }
-      canvas.dataset.ready = "true";
-      render(0);
-    } catch (error) {
-      canvas.hidden = true;
-      console.warn("The race circuit is unavailable; the static hero background is active.", error);
-    }
   </script>
 </body>
 </html>
